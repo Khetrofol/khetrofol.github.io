@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="bn" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>পাতাটি পাওয়া যায়নি - ক্ষেত্রফল</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            yellow: '#FFD700',
+                            yellowDark: '#E6C200',
+                            bgLight: '#F7F9FC',
+                            bgDark: '#0F172A',
+                            cardLight: '#FFFFFF',
+                            cardDark: '#1E293B',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom Font Definition -->
+    <style>
+        @font-face {
+            font-family: 'LalSabuj';
+            src: url('https://khetrofol.github.io/assets/Lal_Sabuj_Normal_31-08-2012.ttf') format('truetype');
+            font-display: swap;
+        }
+        body {
+            font-family: 'LalSabuj', sans-serif;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+    <!-- Initial Theme Setup Script (To prevent flash of wrong theme) -->
+    <script>
+        const savedTheme = localStorage.getItem('khetrofol-theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-brand-bgLight dark:bg-brand-bgDark text-slate-800 dark:text-slate-200 transition-colors duration-300 min-h-screen flex flex-col">
+
+    <!-- Header / Glassmorphic Navbar -->
+    <header class="glass fixed top-0 left-0 right-0 z-40 border-b border-white/20 dark:border-slate-800/50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-center sm:justify-start">
+            <!-- Brand Logo & Name -->
+            <a href="index.html" class="flex items-center gap-3 active:scale-95 transition-transform">
+                <img src="https://i.ibb.co/k28zXtHf/1000176527.png" alt="ক্ষেত্রফল লোগো" class="w-10 h-10 rounded-full object-cover border-2 border-brand-yellow shadow-sm">
+                <span class="text-xl font-bold tracking-wider text-slate-900 dark:text-white">ক্ষেত্রফল</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Error Content Area -->
+    <main class="flex-grow flex items-center justify-center px-4 pt-20 pb-10">
+        <div class="max-w-lg mx-auto text-center space-y-8 animate-fade-in">
+            
+            <!-- 404 Illustration -->
+            <div class="relative flex justify-center items-center h-48 w-full">
+                <!-- Large Background Text -->
+                <span class="absolute text-9xl sm:text-[150px] font-black text-slate-200 dark:text-slate-800/50 tracking-tighter select-none">
+                    404
+                </span>
+                <!-- Floating Icon -->
+                <div class="absolute z-10 animate-float drop-shadow-2xl text-7xl sm:text-8xl">
+                    🛸
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div class="space-y-4 relative z-20">
+                <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">
+                    পাতাটি খুঁজে পাওয়া যায়নি!
+                </h1>
+                <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+                    দুঃখিত, আপনি যে পাতাটি খুঁজছেন তা হয়তো সরিয়ে ফেলা হয়েছে, নাম পরিবর্তন করা হয়েছে অথবা এটি এই মুহূর্তে আমাদের সার্ভারে উপলব্ধ নেই।
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <!-- Back to Home -->
+                <a href="index.html" class="flex items-center justify-center gap-2 w-full sm:w-auto bg-brand-yellow hover:bg-brand-yellowDark text-slate-950 px-8 py-3.5 rounded-full font-bold shadow-lg shadow-brand-yellow/20 transition transform hover:-translate-y-1 active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                    </svg>
+                    হোমপেজে ফিরে যান
+                </a>
+                
+                <!-- Go Back (Browser History) -->
+                <button onclick="window.history.back()" class="flex items-center justify-center gap-2 w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 px-8 py-3.5 rounded-full font-bold shadow-sm transition transform active:scale-95">
+                    আগের পেজে যান
+                </button>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- Simple Footer for Error Page -->
+    <footer class="py-6 text-center text-sm text-slate-500 dark:text-slate-500">
+        <p>&copy; ক্ষেত্রফল। সর্বস্বত্ব সংরক্ষিত।</p>
+    </footer>
+
+</body>
+</html>
+
