@@ -3,9 +3,9 @@
 <html lang="bn" class="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ক্ষেত্রফল - ভিডিও হাব</title>
-    <!-- Tailwind CSS CDN -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ক্ষেত্রফল - ভিডিও প্ল্যাটফর্ম</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -13,760 +13,1045 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            yellow: '#FFD700',
-                            yellowDark: '#E6C200',
-                            bgLight: '#F7F9FC',
-                            bgDark: '#0F172A',
-                            cardLight: '#FFFFFF',
-                            cardDark: '#1E293B',
-                        }
+                        brand: '#FFD629', 
+                        brandDark: '#eab308',
+                    },
+                    fontFamily: {
+                        custom: ['LalSabuj', 'sans-serif']
                     }
                 }
             }
         }
     </script>
-    <!-- Custom Font Definition -->
     <style>
+        /* Custom Font Setup */
         @font-face {
             font-family: 'LalSabuj';
             src: url('https://khetrofol.github.io/assets/Lal_Sabuj_Normal_31-08-2012.ttf') format('truetype');
             font-display: swap;
         }
+
         body {
             font-family: 'LalSabuj', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            scroll-behavior: smooth;
         }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(156, 163, 175, 0.5);
-            border-radius: 10px;
-        }
+
+        /* Glassmorphism Classes */
         .glass {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
         .dark .glass {
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(17, 24, 39, 0.75);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
-        /* Loading Animation */
-        .loader {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            border-left-color: #FFD700;
-            animation: spin 1s linear infinite;
+
+        /* Hide Scrollbar but keep functionality */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-        .dark .loader {
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-left-color: #FFD700;
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Simple Yellow Loading Animation */
+        .loader-container {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            transition: opacity 0.5s ease;
+        }
+        .dark .loader-container {
+            background-color: #111827;
+        }
+        .loader-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid transparent;
+            border-top: 4px solid #FFD629;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* App Layout Adjustments */
+        #app-content {
+            padding-bottom: 90px;
+            min-height: 100vh;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Video Container Aspect Ratio */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        /* Prevent clicks directly on YouTube to bypass custom controls on desktop/mobile */
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Custom controls overlay positioning */
+        .custom-player-controls {
+            transition: opacity 0.3s ease;
+        }
+        .custom-player-controls.controls-hidden {
+            opacity: 0;
+            pointer-events: none; /* Let clicks pass through when hidden */
+        }
+
+        /* Seekbar styles */
+        .seekbar-container {
+            position: relative;
+            height: 6px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            cursor: pointer;
+            transition: height 0.1s ease;
+        }
+        .seekbar-container:hover {
+            height: 8px;
+        }
+        .seekbar-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #FFD629;
+            border-radius: 3px;
+            width: 0%;
+        }
+        .seekbar-handle {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            left: 0%;
+            width: 14px;
+            height: 14px;
+            background-color: #FFD629;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            opacity: 1; /* Keep visible on mobile for better touch targeting */
+            transition: transform 0.1s ease;
+        }
+        .seekbar-container:hover .seekbar-handle {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
     </style>
 </head>
-<body class="bg-brand-bgLight dark:bg-brand-bgDark text-slate-800 dark:text-slate-200 transition-colors duration-300 min-h-screen pb-24">
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
 
     <!-- Loading Screen -->
-    <div id="loading-screen" class="fixed inset-0 z-50 bg-brand-bgLight dark:bg-brand-bgDark flex items-center justify-center">
-        <div class="loader"></div>
+    <div id="loader" class="loader-container">
+        <div class="loader-spinner"></div>
     </div>
 
     <!-- Main App Container -->
-    <div class="max-w-6xl mx-auto px-4 pt-4">
+    <div id="app-content" class="hidden">
         
-        <!-- Header / Glassmorphic Navbar -->
-        <header class="glass fixed top-0 left-0 right-0 z-40 border-b border-white/20 dark:border-slate-800/50 shadow-sm">
-            <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-                <!-- Brand Logo & Name -->
-                <a href="#" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 active:scale-95 transition-transform">
-                    <img src="https://i.ibb.co/k28zXtHf/1000176527.png" alt="ক্ষেত্রফল লোগো" class="w-10 h-10 rounded-full object-cover border-2 border-brand-yellow shadow-sm">
-                    <span class="text-xl font-bold tracking-wider text-slate-900 dark:text-white">ক্ষেত্রফল</span>
-                </a>
-
-                <!-- Custom Search Bar -->
-                <div class="relative w-44 sm:w-64">
-                    <input type="text" id="search-input" oninput="handleSearch()" placeholder="ভিডিও খুঁজুন..." class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full py-1.5 pl-4 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-brand-yellow/50 transition-all">
-                    <button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <!-- Dynamic Content Area -->
-        <main class="mt-20">
-            <!-- Alert Container for notifications -->
-            <div id="alert-toast" class="fixed top-24 left-1/2 -translate-x-1/2 z-50 transform translate-y-[-100px] opacity-0 transition-all duration-300 bg-slate-950 text-white dark:bg-white dark:text-slate-950 px-5 py-3 rounded-xl shadow-lg flex items-center gap-2">
-                <span id="alert-text"></span>
-            </div>
-
-            <!-- Home Page -->
-            <section id="page-home" class="page-section">
-                <!-- Search Result Indicator -->
-                <div id="search-header" class="hidden mb-6 flex items-center justify-between">
-                    <h2 class="text-xl font-semibold"><span id="search-query-display" class="text-brand-yellowDark dark:text-brand-yellow"></span> এর অনুসন্ধান ফলাফল</h2>
-                    <button onclick="clearSearch()" class="text-sm bg-slate-200 dark:bg-slate-800 px-3 py-1 rounded-full hover:bg-slate-300 dark:hover:bg-slate-700 transition">মুছে ফেলুন</button>
-                </div>
-
-                <!-- Latest Section (Visible only when not searching) -->
-                <div id="latest-wrapper">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="w-3 h-3 bg-brand-yellow rounded-full animate-ping"></span>
-                        <h2 class="text-xl font-bold tracking-wide">সর্বশেষ ভিডিওসমূহ (লেটেস্ট)</h2>
+        <!-- View: Home -->
+        <div id="view-home" class="view-section hidden">
+            <!-- Top App Bar & Search -->
+            <div class="sticky top-0 z-40 glass border-b border-gray-200 dark:border-gray-800 px-4 py-3 fade-in">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-3">
+                        <img src="https://i.ibb.co/k28zXtHf/1000176527.png" alt="ক্ষেত্রফল" class="w-9 h-9 rounded-full shadow-sm">
+                        <h1 class="text-2xl font-bold text-yellkow-500 dark:text-brand tracking-wide">ক্ষেত্রফল</h1>
                     </div>
-                    <div id="latest-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-                        <!-- Latest Videos populated via JavaScript -->
+                </div>
+                <div class="relative w-full">
+                    <input type="text" id="search-input" placeholder="ভিডিও খুঁজুন..." class="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 text-sm rounded-full focus:ring-brand focus:border-brand block px-4 py-2.5 shadow-sm transition-all outline-none">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Normal Feed Content -->
+            <div id="feed-container" class="pb-6">
+                <!-- Latest Section -->
+                <div class="mt-5 px-4 fade-in">
+                    <div class="flex items-center justify-between mb-4 border-l-4 border-brand pl-2">
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white">লেটেস্ট ভিডিও</h2>
+                    </div>
+                    <!-- Full width grid layout for videos -->
+                    <div id="latest-videos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <!-- Dynamically populated -->
                     </div>
                 </div>
 
-                <!-- Category Slider (Horizontal Scroll) -->
-                <div id="categories-tabs-wrapper" class="mb-6 overflow-x-auto pb-2 flex gap-2">
-                    <!-- Categorized filter tabs -->
+                <!-- Categories Feed -->
+                <div id="categories-feed" class="mt-2">
+                    <!-- Dynamically populated -->
                 </div>
-
-                <!-- Dynamically Loaded Categories Sections (Infinite Scroll simulation) -->
-                <div id="categories-sections-container" class="space-y-10">
-                    <!-- Section blocks populated dynamically -->
+                
+                <!-- Infinite Scroll Trigger -->
+                <div id="scroll-trigger" class="h-10 w-full flex justify-center items-center mt-6">
+                    <div class="w-6 h-6 border-2 border-transparent border-t-brand rounded-full animate-spin"></div>
                 </div>
-            </section>
+            </div>
 
-            <!-- Video Player Page -->
-            <section id="page-video" class="page-section hidden">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- Player Area -->
-                    <div class="lg:col-span-2 space-y-4">
-                        <!-- Custom Video Container with Aspect Ratio -->
-                        <div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-xl bg-black border border-white/10">
-                            <iframe id="youtube-player" class="absolute inset-0 w-full h-full" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <!-- Search Results Content -->
+            <div id="search-results-container" class="hidden px-4 pt-5 pb-6 fade-in">
+                <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4 border-l-4 border-brand pl-2" id="search-title">সার্চ রেজাল্ট</h2>
+                <div id="search-results-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+
+        <!-- View: Video Player -->
+        <div id="view-video" class="view-section hidden fade-in">
+            <!-- Custom Dynamic Player Wrapper -->
+            <div id="video-outer-container" class="sticky top-0 z-30 w-full bg-black shadow-lg">
+                <div id="custom-video-player" class="video-wrapper relative group select-none overflow-hidden">
+                    
+                    <!-- Native YT Player Target Container -->
+                    <div id="yt-player-placeholder"></div>
+                    
+                    <!-- Fully Custom Controller Overlay -->
+                    <div id="custom-controls" class="custom-player-controls absolute inset-0 bg-black/40 flex flex-col justify-between opacity-100 transition-opacity duration-300 z-20">
+                        <!-- Top Bar (Back Button & Title) -->
+                        <div class="flex items-center justify-between p-3 bg-gradient-to-b from-black/80 to-transparent">
+                            <a href="#/" class="text-white hover:text-brand transition-colors p-1.5 rounded-full bg-black/20 flex items-center justify-center">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                            </a>
+                            <span class="text-white text-xs font-semibold bg-black/40 px-3 py-1.5 rounded-full truncate max-w-[200px]" id="player-top-title">ক্ষেত্রফল প্লেয়ার</span>
                         </div>
 
-                        <!-- Video Meta Data Container -->
-                        <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800/80">
-                            <div class="flex flex-wrap justify-between items-start gap-4">
-                                <div class="space-y-2 flex-1">
-                                    <span id="player-video-genre" class="inline-block bg-brand-yellow/20 text-brand-yellowDark dark:text-brand-yellow font-semibold text-xs px-2.5 py-1 rounded-md">ক্যাটেগরি</span>
-                                    <h1 id="player-video-title" class="text-xl sm:text-2xl font-bold text-slate-950 dark:text-white leading-snug">ভিডিওর নাম লোড হচ্ছে...</h1>
-                                    <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                        <span id="player-video-date">তারিখ</span>
-                                    </div>
+                        <!-- Middle Play/Pause Big Button Overlay -->
+                        <div class="flex items-center justify-center flex-grow" id="middle-play-trigger">
+                            <button id="ctrl-big-play" class="w-16 h-16 rounded-full bg-black/60 text-brand border border-brand/20 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform">
+                                <svg id="big-play-icon" class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+                                <svg id="big-pause-icon" class="w-8 h-8 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
+                            </button>
+                        </div>
+
+                        <!-- Bottom Controls Bar -->
+                        <div class="bg-gradient-to-t from-black/90 via-black/50 to-transparent p-3 flex flex-col gap-2">
+                            <!-- Seekbar -->
+                            <div class="flex items-center gap-2 py-1">
+                                <div id="ctrl-seekbar" class="seekbar-container">
+                                    <div id="ctrl-seekbar-fill" class="seekbar-fill"></div>
+                                    <div id="ctrl-seekbar-handle" class="seekbar-handle"></div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <!-- Play/Pause Toggle -->
+                                    <button id="ctrl-play-pause" class="text-white hover:text-brand transition-colors p-1">
+                                        <svg id="play-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+                                        <svg id="pause-icon" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></svg>
+                                    </button>
+
+                                    <!-- Time Counter -->
+                                    <span id="ctrl-time-display" class="text-white text-xs font-mono">00:00 / 00:00</span>
                                 </div>
 
-                                <!-- Action Buttons -->
-                                <div class="flex items-center gap-2">
-                                    <button onclick="shareCurrentVideo()" class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700/80 px-4 py-2 rounded-full transition active:scale-95">
-                                        <img src="https://raw.githubusercontent.com/Khetrofol/khetrofol.github.io/refs/heads/main/assets/share-icon.svg" alt="শেয়ার করুন" class="w-5 h-5 dark:invert">
-                                        <span class="text-sm font-semibold">শেয়ার</span>
+                                <div class="flex items-center gap-4">
+                                    <!-- Mute/Volume controls -->
+                                    <div class="flex items-center gap-2 group/vol">
+                                        <button id="ctrl-mute" class="text-white hover:text-brand transition-colors p-1">
+                                            <svg id="vol-high" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg>
+                                            <svg id="vol-muted" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"></path></svg>
+                                        </button>
+                                        <input id="ctrl-vol-slider" type="range" min="0" max="100" value="100" class="w-16 sm:w-20 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-brand transition-all">
+                                    </div>
+
+                                    <!-- Full Screen Button -->
+                                    <button id="ctrl-fullscreen" class="text-white hover:text-brand transition-colors p-1">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4h4m12 4V4h-4M4 16v4h4m12-4v4h-4"></path></svg>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Sidebar: Same Category Recommendations (Play List style) -->
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-2 pb-2 border-b border-slate-200 dark:border-slate-800">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-yellowDark dark:text-brand-yellow" viewBox="0 0 20 20" fill="currentColor">
-                                                        <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
-                            </svg>
-                            <h3 class="font-bold text-lg tracking-wide">সম্পর্কিত ভিডিও তালিকা</h3>
-                        </div>
-                        <div id="playlist-container" class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
-                            <!-- Category Playlist Items -->
-                        </div>
-                    </div>
                 </div>
-            </section>
-
-            <!-- User Settings Page -->
-            <section id="page-settings" class="page-section hidden">
-                <div class="max-w-2xl mx-auto space-y-8">
-                    <!-- Title & Settings Container -->
-                    <div class="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-100 dark:border-slate-800/80 shadow-md">
-                        <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            ইউজার সেটিংস
-                        </h2>
-
-                        <!-- Theme Toggle Selector -->
-                        <div class="flex items-center justify-between py-4 border-b border-slate-100 dark:border-slate-800">
-                            <div>
-                                <h3 class="font-bold text-lg">থিম মোড</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400">আপনার ডিভাইসের জন্য উপযুক্ত থিম নির্বাচন করুন</p>
-                            </div>
-                            <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-full">
-                                <button onclick="setTheme('light')" id="theme-btn-light" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all">লাইট</button>
-                                <button onclick="setTheme('dark')" id="theme-btn-dark" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all">ডার্ক</button>
-                            </div>
-                        </div>
-
-                        <!-- System Status Info -->
-                        <div class="flex items-center justify-between py-4">
-                            <div>
-                                <h3 class="font-bold text-lg">অটো রিফ্রেশ ফিড</h3>
-                                <p class="text-sm text-slate-500 dark:text-slate-400">প্রতিবার রিফ্রেশে মিক্সড কন্টেন্ট দেখাবে</p>
-                            </div>
-                            <span class="inline-block w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse mr-4"></span>
-                        </div>
-                    </div>
-
-                    <!-- About Us Section -->
-                    <div class="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-100 dark:border-slate-800/80 shadow-md">
-                        <h2 class="text-2xl font-bold mb-4">আমাদের সম্পর্কে</h2>
-                        <div class="prose prose-slate dark:prose-invert space-y-4 text-slate-600 dark:text-slate-300">
-                            <p>
-                                স্বাগতম ক্ষেত্রফল এ! আমরা মূলত বিজ্ঞান, প্রযুক্তি, বিভিন্ন দেশের সংস্কৃতি, মহাকাশ এবং রহস্যময় বিষয়গুলোর সহজ এবং আকর্ষণীয় ব্যাখ্যা নিয়ে ভিডিও তৈরি করে থাকি। 
-                            </p>
-                            <p>
-                                আমাদের মূল লক্ষ্য হলো জটিল বিষয়গুলোকে সহজ ভাষার মাধ্যমে সাধারণ মানুষের কাছে তুলে ধরা এবং প্রতিটি পর্বের মাধ্যমে নতুন কিছু জানার আগ্রহ জাগিয়ে তোলা। আমাদের প্ল্যাটফর্মের সাথে যুক্ত থাকার জন্য ধন্যবাদ।
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Video Not Found Screen -->
-            <section id="page-not-found" class="page-section hidden text-center py-20">
-                <div class="max-w-md mx-auto space-y-6">
-                    <div class="text-6xl text-brand-yellow">🛸</div>
-                    <h2 class="text-2xl font-bold">ভিডিওটি সার্ভারে খুঁজে পাওয়া যায়নি</h2>
-                    <p class="text-slate-500 dark:text-slate-400">দুঃখিত, আপনি যে ভিডিওটি অনুসন্ধান করার চেষ্টা করছেন তা এই মুহূর্তে আমাদের সার্ভারে উপলব্ধ নেই।</p>
-                    <button onclick="navigateTo('home')" class="bg-brand-yellow hover:bg-brand-yellowDark text-slate-950 px-6 py-2.5 rounded-full font-bold shadow-md transition transform active:scale-95">হোমে ফিরে যান</button>
-                </div>
-            </section>
-        </main>
-
-        <!-- Fixed Glassmorphic Mobile-First Bottom Nav Bar -->
-        <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 w-[90%] max-w-sm rounded-3xl border border-white/20 dark:border-slate-800/50 shadow-2xl glass">
-            <div class="relative flex items-center justify-between px-6 py-4">
+            </div>
+            
+            <!-- Video Info -->
+            <div id="video-metadata" class="px-4 py-5 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+                <h1 id="video-title" class="text-xl font-bold text-gray-900 dark:text-white leading-snug mb-2"></h1>
                 
-                <!-- Left: YouTube App Redirection Link -->
-                <a href="https://youtube.com/@Khetrofol" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center justify-center text-slate-500 hover:text-red-500 transition active:scale-90">
-                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.508 9.388.508 9.388.508s7.517 0 9.388-.508a3.002 3.002 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                    </svg>
-                    <span class="text-[10px] font-semibold mt-1">ইউটিউব</span>
-                </a>
-
-                <!-- Middle: Main Elevated Home Button -->
-                <div class="absolute left-1/2 -translate-x-1/2 -top-6">
-                    <button onclick="navigateTo('home')" id="home-nav-btn" class="w-16 h-16 bg-brand-yellow hover:bg-brand-yellowDark text-slate-950 rounded-full flex items-center justify-center shadow-lg border-4 border-brand-bgLight dark:border-brand-bgDark transition transform active:scale-95 hover:scale-105">
-                        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                        </svg>
+                <div class="flex items-center justify-between mt-3">
+                    <div class="flex flex-col">
+                        <span id="video-date" class="text-sm text-gray-500 dark:text-gray-400"></span>
+                        <span id="video-genre" class="inline-block mt-1 bg-gray-100 dark:bg-gray-800 text-brand font-semibold text-xs px-2.5 py-1 rounded-md w-max"></span>
+                    </div>
+                    
+                    <!-- Share Button -->
+                    <button id="share-btn" class="flex items-center justify-center gap-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-800 dark:text-white px-4 py-2 rounded-full transition-colors">
+                        <img src="https://raw.githubusercontent.com/Khetrofol/khetrofol.github.io/refs/heads/main/assets/share-icon.svg" class="w-5 h-5 animate-pulse" alt="Share">
+                        <span class="text-sm font-semibold">শেয়ার</span>
                     </button>
                 </div>
-
-                <!-- Spacer to reserve space for elevated Home button -->
-                <div class="w-12"></div>
-
-                <!-- Right: Settings Page Toggle Button -->
-                <button onclick="navigateTo('settings')" id="settings-nav-btn" class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 hover:text-brand-yellowDark dark:hover:text-brand-yellow transition active:scale-90">
-                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
-                    <span class="text-[10px] font-semibold mt-1">সেটিংস</span>
-                </button>
-
             </div>
-        </nav>
+
+            <!-- Related Videos -->
+            <div class="px-4 py-6">
+                <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4 border-l-4 border-brand pl-2">একই ক্যাটাগরির আরও ভিডিও</h3>
+                <div id="related-videos-list" class="flex flex-col gap-4">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+
+        <!-- View: Settings -->
+        <div id="view-settings" class="view-section hidden fade-in px-4 py-6">
+            <h2 class="text-2xl font-bold text-yellow-500 dark:text-brand mb-6 text-center">ইউজার সেটিংস</h2>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden mb-6">
+                <div class="p-5 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        <span class="text-lg font-semibold text-gray-800 dark:text-white">ডার্ক থিম চালু করুন</span>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="theme-toggle" class="sr-only peer">
+                        <div class="w-14 h-7 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-brand"></div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                <div class="flex items-center justify-center mb-4">
+                     <img src="https://i.ibb.co/k28zXtHf/1000176527.png" alt="লোগো" class="w-16 h-16 rounded-full shadow-md">
+                </div>
+                <h3 class="text-xl font-bold text-center text-gray-800 dark:text-white mb-3">আমাদের সম্পর্কে</h3>
+                <p class="text-gray-600 dark:text-gray-300 text-center text-sm leading-relaxed">
+                    "ক্ষেত্রফল" হলো একটি অত্যাধুনিক এবং গোছানো প্ল্যাটফর্ম, যেখানে আমরা বিনোদনমূলক, শিক্ষামূলক, রহস্যময়, প্রযুক্তিগত এবং তথ্যবহুল ভিডিও তৈরি করি। আমাদের মূল লক্ষ্য হলো জটিল বিষয়গুলোকে সহজ এবং আনন্দদায়ক উপায়ে আপনাদের সামনে তুলে ধরা। আমাদের সাথে থাকার জন্য ধন্যবাদ!
+                </p>
+                <div class="mt-6 text-center text-xs text-gray-400">
+                    ভার্সন ১.০.১ (ফিক্সড প্লেয়ার)
+                </div>
+            </div>
+        </div>
 
     </div>
 
-    <!-- Script Area -->
+    <!-- Bottom Navigation Bar (Fixed Glassmorphic) -->
+    <nav class="fixed bottom-0 w-full glass z-50 border-t border-gray-200 dark:border-gray-800 rounded-t-3xl shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+        <div class="flex justify-around items-center h-16 px-6 relative">
+            
+            <!-- YouTube Button -->
+            <a href="https://youtube.com/@Khetrofol" target="_blank" rel="noopener noreferrer" class="p-2 text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-500 transition-colors flex flex-col items-center">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+
+            <!-- Home Button (Floating Center) -->
+            <a href="#/" id="nav-home" class="absolute left-1/2 transform -translate-x-1/2 -top-6 w-16 h-16 bg-brand hover:bg-brandDark text-gray-900 dark:text-gray-900 rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(234,179,8,0.4)] border-4 border-white dark:border-gray-900 transition-transform active:scale-95 z-50">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </a>
+
+            <!-- Settings Button -->
+            <a href="#settings" id="nav-settings" class="p-2 text-gray-500 hover:text-brand dark:text-gray-400 dark:hover:text-brand transition-colors flex flex-col items-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </a>
+
+        </div>
+    </nav>
+
+    <!-- Custom Toast Notification Container -->
+    <div id="toast-container" class="fixed top-5 left-1/2 transform -translate-x-1/2 z-[100] flex flex-col gap-2 pointer-events-none"></div>
+
     <script>
-        // App State
-        let allVideos = [];
-        let filteredVideos = [];
-        let currentTheme = 'light';
-        let activePage = 'home';
-        let currentSearchQuery = '';
-        let activeCategoryTab = 'all';
+        // Application State
+        let videosData = [];
+        let allCategories = [];
+        let isDarkMode = false;
+        
+        // Configuration
+        const JSON_URL = 'https://khetrofol.github.io/assets/videos.json';
 
-        // Allowed Genres/Categories
-        const allowedGenres = [
-            "এন্টারটেইনমেন্ট", "শিক্ষামূলক", "শীর্ষ ১০", "শীর্ষ ৫", "শীর্ষ ১৫", 
-            "রহস্যময়", "প্রযুক্তি", "এক্সপ্লেনেশন", "ডকুমেন্টারি", "প্রতিবেদন", 
-            "রাজনৈতিক", "অন্যান্য"
-        ];
+        // YouTube Player Instance State
+        let ytPlayer = null;
+        let updateTimer = null;
+        let controlsTimeout = null;
+        let isPlayerReady = false;
 
-        // Initialize Application
-        window.addEventListener('DOMContentLoaded', async () => {
+        // DOM Elements
+        const loader = document.getElementById('loader');
+        const appContent = document.getElementById('app-content');
+        const views = document.querySelectorAll('.view-section');
+        const themeToggle = document.getElementById('theme-toggle');
+        const searchInput = document.getElementById('search-input');
+        
+        // Dynamic Script Injection of YouTube IFrame Player API
+        const ytTag = document.createElement('script');
+        ytTag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(ytTag, firstScriptTag);
+
+        // Global YouTube Callback
+        window.onYouTubeIframeAPIReady = function() {
+            isPlayerReady = true;
+            console.log("YouTube API is ready.");
+        };
+
+        // Initialize App on DOM Content Loaded
+        async function initApp() {
             initTheme();
-            await fetchVideosData();
-            handleRouting();
+            await fetchVideos();
             
-            // Listen to Hash Changes for navigation/deep linking
-            window.addEventListener('hashchange', handleRouting);
-            
-            // Close loading screen
+            // Hide Loader & Show App smoothly
             setTimeout(() => {
-                const loader = document.getElementById('loading-screen');
-                if(loader) loader.style.display = 'none';
-            }, 500);
-        });
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    appContent.classList.remove('hidden');
+                    handleRouting();
+                }, 500);
+            }, 800);
 
-        // Theme Initialization & Management
+            // App Event Listeners
+            window.addEventListener('hashchange', handleRouting);
+            themeToggle.addEventListener('change', toggleTheme);
+            searchInput.addEventListener('input', handleSearch);
+            document.getElementById('share-btn').addEventListener('click', handleShare);
+            
+            setupInfiniteScroll();
+            setupPlayerControls();
+        }
+
+        // --- Theme Management ---
         function initTheme() {
             const savedTheme = localStorage.getItem('khetrofol-theme');
-            if (savedTheme) {
-                currentTheme = savedTheme;
+            if (savedTheme === 'dark') {
+                isDarkMode = true;
+                document.documentElement.classList.add('dark');
+                themeToggle.checked = true;
             } else {
-                currentTheme = 'light'; // Default Brand Theme
-            }
-            applyTheme(currentTheme);
-        }
-
-        function setTheme(theme) {
-            currentTheme = theme;
-            localStorage.setItem('khetrofol-theme', theme);
-            applyTheme(theme);
-            showToast(`থিম পরিবর্তন করা হয়েছে: ${theme === 'light' ? 'লাইট মোড' : 'ডার্ক মোড'}`);
-        }
-
-        function applyTheme(theme) {
-            const html = document.documentElement;
-            const btnLight = document.getElementById('theme-btn-light');
-            const btnDark = document.getElementById('theme-btn-dark');
-
-            if (theme === 'dark') {
-                html.classList.add('dark');
-                btnDark.className = "px-4 py-1.5 rounded-full text-xs font-bold bg-brand-yellow text-slate-950 shadow-sm transition-all";
-                btnLight.className = "px-4 py-1.5 rounded-full text-xs font-bold text-slate-500 dark:text-slate-400 transition-all";
-            } else {
-                html.classList.remove('dark');
-                btnLight.className = "px-4 py-1.5 rounded-full text-xs font-bold bg-slate-200 dark:bg-slate-700 text-slate-900 transition-all";
-                btnDark.className = "px-4 py-1.5 rounded-full text-xs font-bold text-slate-500 dark:text-slate-400 transition-all";
+                isDarkMode = false;
+                document.documentElement.classList.remove('dark');
+                themeToggle.checked = false;
             }
         }
 
-        // Fetch JSON Data
-        async function fetchVideosData() {
+        function toggleTheme(e) {
+            isDarkMode = e.target.checked;
+            if (isDarkMode) {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('khetrofol-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('khetrofol-theme', 'light');
+            }
+        }
+
+        // --- Data Fetching ---
+        async function fetchVideos() {
             try {
-                const response = await fetch('https://khetrofol.github.io/assets/videos.json');
-                if (!response.ok) throw new Error('Network error');
-                allVideos = await response.json();
+                const response = await fetch(JSON_URL);
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                videosData = data || [];
+                allCategories = [...new Set(videosData.map(v => v.genre))];
             } catch (error) {
-                console.error("ভিডিও ডেটা ফেচ করতে সমস্যা হয়েছে:", error);
-                // Fallback structured dummy data in case URL is inaccessible locally or during development
-                allVideos = [
+                console.error("Error fetching remote data, falling back to mock data:", error);
+                // Failback structured data
+                videosData = [
                     {
-                        "title": "মহাবিশ্বের শেষ সীমানা কোথায়? বিজ্ঞান কি বলে?",
-                        "alias": "universe-end-boundary-explanation",
+                        "title": "মহাবিশ্বের রহস্যময় ১০টি সত্য ঘটনা যা আপনাকে অবাক করবে",
+                        "alias": "space-mysteries-amazing-facts",
+                        "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                        "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+                        "publishDate": "2026-06-15",
+                        "genre": "শীর্ষ ১০"
+                    },
+                    {
+                        "title": "ব্ল্যাক হোল বা কৃষ্ণ গহ্বর কিভাবে কাজ করে? সহজ বাংলায় বিজ্ঞান",
+                        "alias": "how-black-hole-works-simple-science",
                         "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                         "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
                         "publishDate": "2026-06-14",
-                        "genre": "এক্সপ্লেনেশন"
-                    },
-                    {
-                        "title": "পৃথিবীর বুকে রহস্যময় ৫টি নিষিদ্ধ এলাকা",
-                        "alias": "mysterious-forbidden-places-top5",
-                        "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                        "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-                        "publishDate": "2026-06-12",
-                        "genre": "শীর্ষ ৫"
-                    },
-                    {
-                        "title": "ব্ল্যাক হোল কিভাবে কাজ করে? সহজ ব্যাখ্যা",
-                        "alias": "black-hole-kivabe-kaj-kore-sohoj-bekkha",
-                        "youtubeUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                        "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-                        "publishDate": "2026-06-13",
-                        "genre": "এক্সপ্লেনেশন"
+                        "genre": "বিজ্ঞান ও রহস্য"
                     }
                 ];
-            }
-            
-            // Randomize feed on refresh
-            shuffleArray(allVideos);
-            filteredVideos = [...allVideos];
-        }
-
-        // Shuffle Utility to mix new & old contents on feed refresh
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+                allCategories = ["শীর্ষ ১০", "বিজ্ঞান ও রহস্য"];
             }
         }
 
-        // Client-side Routing / Page State Controller
+        // --- Routing System ---
         function handleRouting() {
-            const hash = window.location.hash || '';
-            
-            // Hide all pages
-            document.querySelectorAll('.page-section').forEach(p => p.classList.add('hidden'));
-            
-            // Reset nav button states
-            document.getElementById('home-nav-btn').classList.remove('scale-110', 'bg-brand-yellowDark');
-            document.getElementById('settings-nav-btn').classList.remove('text-brand-yellow');
+            const hash = window.location.hash || '#/';
+            window.scrollTo(0, 0);
 
-            if (hash.startsWith('#video?id=')) {
-                // Video Player Screen
-                const alias = hash.replace('#video?id=', '');
-                activePage = 'video';
-                loadVideoPlayer(alias);
+            // Hide all views
+            views.forEach(v => v.classList.add('hidden'));
+            
+            // Clean player updates
+            if (updateTimer) {
+                clearInterval(updateTimer);
+                updateTimer = null;
+            }
+
+            // Stop playback if leaving player view
+            if (ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+                try {
+                    ytPlayer.pauseVideo();
+                } catch(e){}
+            }
+
+            if (hash === '#/' || hash === '#' || hash === '') {
+                document.getElementById('view-home').classList.remove('hidden');
+                renderHome();
             } else if (hash === '#settings') {
-                // Settings Screen
-                activePage = 'settings';
-                document.getElementById('page-settings').classList.remove('hidden');
-                document.getElementById('settings-nav-btn').classList.add('text-brand-yellow');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                document.getElementById('view-settings').classList.remove('hidden');
+            } else if (hash.startsWith('#video?id=')) {
+                const alias = hash.split('id=')[1];
+                document.getElementById('view-video').classList.remove('hidden');
+                renderVideoPlayer(alias);
             } else {
-                // Home Screen Default
-                activePage = 'home';
-                document.getElementById('page-home').classList.remove('hidden');
-                document.getElementById('home-nav-btn').classList.add('scale-105');
-                renderHomeScreen();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                document.getElementById('view-home').classList.remove('hidden');
+                renderHome();
             }
         }
 
-        // Navigation Trigger
-        function navigateTo(page, params = '') {
-            if (page === 'home') {
-                window.location.hash = '';
-            } else if (page === 'settings') {
-                window.location.hash = '#settings';
-            } else if (page === 'video') {
-                window.location.hash = `#video?id=${params}`;
-            }
-        }
-
-        // Render Home Screen Sections
-        function renderHomeScreen() {
-            renderCategoryTabs();
-
-            // Filter latest 10 videos (Sorted by Date Descending)
-            const sortedByDate = [...allVideos].sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate));
-            const latest10 = sortedByDate.slice(0, 10);
-
-            // Populate Latest Section
-            const latestGrid = document.getElementById('latest-grid');
-            latestGrid.innerHTML = '';
-
-            if (latest10.length === 0) {
-                latestGrid.innerHTML = `
-                    <div class="col-span-full text-center py-12 text-slate-500">
-                        কোনো ভিডিও পাওয়া যায়নি
-                    </div>
-                `;
-            } else {
-                latest10.forEach(video => {
-                    latestGrid.appendChild(createVideoCard(video));
-                });
-            }
-
-            // Populate Categorized Dynamic Blocks
-            renderCategorizedBlocks();
-        }
-
-        // Generate Category Horizontal Navigation Tabs
-        function renderCategoryTabs() {
-            const wrapper = document.getElementById('categories-tabs-wrapper');
-            wrapper.innerHTML = '';
-
-            // Add 'All' tab
-            const allBtn = document.createElement('button');
-            allBtn.textContent = 'সব ভিডিও';
-            allBtn.className = `px-5 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${
-                activeCategoryTab === 'all' 
-                ? 'bg-brand-yellow text-slate-950 shadow-md' 
-                : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700'
-            }`;
-            allBtn.onclick = () => filterByCategory('all');
-            wrapper.appendChild(allBtn);
-
-            // Add remaining allowed genres
-            allowedGenres.forEach(genre => {
-                // Check if category has any videos associated
-                const count = allVideos.filter(v => v.genre === genre).length;
-                if (count > 0) {
-                    const btn = document.createElement('button');
-                    btn.textContent = `${genre} (${count})`;
-                    btn.className = `px-5 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-all ${
-                        activeCategoryTab === genre 
-                        ? 'bg-brand-yellow text-slate-950 shadow-md' 
-                        : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700'
-                    }`;
-                    btn.onclick = () => filterByCategory(genre);
-                    wrapper.appendChild(btn);
-                }
-            });
-        }
-
-        // Filter Action from Category Tab
-        function filterByCategory(category) {
-            activeCategoryTab = category;
-            renderCategoryTabs();
-
-            const latestWrapper = document.getElementById('latest-wrapper');
-            const container = document.getElementById('categories-sections-container');
-
-            if (category === 'all') {
-                latestWrapper.classList.remove('hidden');
-                renderCategorizedBlocks();
-            } else {
-                latestWrapper.classList.add('hidden');
-                // Render specific chosen category block single-handedly
-                container.innerHTML = '';
-                const matchedVideos = allVideos.filter(v => v.genre === category);
-                
-                const section = document.createElement('div');
-                section.className = "space-y-4 animate-fade-in";
-                section.innerHTML = `
-                    <h2 class="text-xl font-bold border-l-4 border-brand-yellow pl-3">${category} ক্যাটাগরির ভিডিও</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-                `;
-                const grid = section.querySelector('div');
-                matchedVideos.forEach(v => grid.appendChild(createVideoCard(v)));
-                container.appendChild(section);
-            }
-        }
-
-        // Render Categorized Blocks sequentially with dynamic auto-repeat simulation on scroll
-        function renderCategorizedBlocks() {
-            const container = document.getElementById('categories-sections-container');
-            container.innerHTML = '';
-
-            // Render all categories that have videos
-            allowedGenres.forEach(genre => {
-                const genreVideos = allVideos.filter(v => v.genre === genre);
-                if (genreVideos.length > 0) {
-                    const sectionBlock = document.createElement('div');
-                    sectionBlock.className = "space-y-4 border-t border-slate-200 dark:border-slate-800 pt-6";
-                    sectionBlock.innerHTML = `
-                        <div class="flex items-center justify-between">
-                            <h2 class="text-xl font-bold tracking-wide">${genre}</h2>
-                            <button onclick="filterByCategory('${genre}')" class="text-sm font-semibold text-brand-yellowDark dark:text-brand-yellow hover:underline">সবগুলো দেখুন →</button>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-                    `;
-                    
-                    const grid = sectionBlock.querySelector('.grid');
-                    // Show up to 3 videos initially in this preview grid
-                    genreVideos.slice(0, 3).forEach(v => {
-                        grid.appendChild(createVideoCard(v));
-                    });
-
-                    container.appendChild(sectionBlock);
-                }
-            });
-        }
-
-        // Video Card Element Creator
-        function createVideoCard(video) {
-            const card = document.createElement('div');
-            card.className = "group bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-slate-100 dark:border-slate-800/80 transition-all duration-300 flex flex-col cursor-pointer";
-            card.onclick = () => navigateTo('video', video.alias);
-
-            // Extract pure date
-            const formattedDate = new Date(video.publishDate).toLocaleDateString('bn-BD', {
-                year: 'numeric', month: 'long', day: 'numeric'
-            });
-
-            card.innerHTML = `
-                <div class="relative aspect-video overflow-hidden bg-slate-900">
-                    <img src="${video.thumbnail}" alt="${video.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" onerror="this.src='https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg'">
-                    <span class="absolute bottom-2.5 right-2.5 bg-slate-950/80 text-white text-[10px] font-bold px-2 py-0.5 rounded backdrop-blur-sm">প্লে করুন</span>
-                    <span class="absolute top-2.5 left-2.5 bg-brand-yellow text-slate-950 text-[10px] font-bold px-2 py-0.5 rounded shadow">
-                        ${video.genre}
-                    </span>
-                </div>
-                <div class="p-4 flex flex-col flex-grow justify-between gap-3">
-                    <h3 class="font-bold text-base line-clamp-2 text-slate-900 dark:text-white group-hover:text-brand-yellowDark dark:group-hover:text-brand-yellow transition-colors leading-snug">
-                        ${video.title}
-                    </h3>
-                    <div class="flex items-center gap-1.5 text-xs text-slate-400">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <span>${formattedDate}</span>
-                    </div>
-                </div>
-            `;
-            return card;
-        }
-
-        // Load & Initialize custom Video Player
-        function loadVideoPlayer(alias) {
-            const video = allVideos.find(v => v.alias === alias);
-            
-            if (!video) {
-                // If video alias not found in local array, display Not Found
-                document.getElementById('page-not-found').classList.remove('hidden');
-                return;
-            }
-
-            document.getElementById('page-video').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            // Extract Youtube Video ID
-            const youtubeId = getYoutubeId(video.youtubeUrl);
-            const iframe = document.getElementById('youtube-player');
-            
-            // Custom high quality playback options embedded inside iframe query limits
-            iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&enablejsapi=1`;
-
-            // Setup metadata
-            document.getElementById('player-video-title').textContent = video.title;
-            document.getElementById('player-video-genre').textContent = video.genre;
-            
-            const formattedDate = new Date(video.publishDate).toLocaleDateString('bn-BD', {
-                year: 'numeric', month: 'long', day: 'numeric'
-            });
-            document.getElementById('player-video-date').textContent = formattedDate;
-
-            // Generate Sidebar Playlist (Other videos in the same category)
-            const playlistContainer = document.getElementById('playlist-container');
-            playlistContainer.innerHTML = '';
-
-            const categoryRelated = allVideos.filter(v => v.genre === video.genre && v.alias !== video.alias);
-            
-            if (categoryRelated.length === 0) {
-                // If no other videos in same category, show standard popular uploads as fallbacks
-                const otherVideos = allVideos.filter(v => v.alias !== video.alias);
-                otherVideos.slice(0, 6).forEach(v => {
-                    playlistContainer.appendChild(createPlaylistItem(v));
-                });
-            } else {
-                categoryRelated.forEach(v => {
-                    playlistContainer.appendChild(createPlaylistItem(v));
-                });
-            }
-        }
-
-        // Youtube ID parser from normal watch links
-        function getYoutubeId(url) {
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        // --- Helper Utilities ---
+        function extractVideoID(url) {
+            const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
             const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : 'dQw4w9WgXcQ';
+            return (match && match[2].length === 11) ? match[2] : null;
         }
 
-        // Custom Playlist Item Element Creator
-        function createPlaylistItem(video) {
-            const div = document.createElement('div');
-            div.className = "flex gap-3 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800/50 p-2 rounded-xl border border-slate-100 dark:border-slate-800/50 cursor-pointer transition active:scale-98";
-            div.onclick = () => navigateTo('video', video.alias);
-
-            div.innerHTML = `
-                <img src="${video.thumbnail}" alt="${video.title}" class="w-24 aspect-video object-cover rounded-lg bg-slate-900" onerror="this.src='https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg'">
-                <div class="flex flex-col justify-center gap-1.5 flex-grow">
-                    <h4 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white line-clamp-2 leading-snug">${video.title}</h4>
-                    <span class="text-[10px] text-brand-yellowDark dark:text-brand-yellow font-semibold">${video.genre}</span>
-                </div>
-            `;
-            return div;
+        function formatDateBangla(dateString) {
+            const date = new Date(dateString);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('bn-BD', options);
         }
 
-        // Global Interactive Search Feature
-        function handleSearch() {
-            const query = document.getElementById('search-input').value.trim().toLowerCase();
-            const latestWrapper = document.getElementById('latest-wrapper');
-            const categoriesTabs = document.getElementById('categories-tabs-wrapper');
-            const categoriesContainer = document.getElementById('categories-sections-container');
-            const searchHeader = document.getElementById('search-header');
-            const searchQueryDisplay = document.getElementById('search-query-display');
-
-            if (query === '') {
-                clearSearch();
-                return;
-            }
-
-            // Force route to home on search input
-            if (activePage !== 'home') {
-                navigateTo('home');
-            }
-
-            // Hide normal blocks
-            latestWrapper.classList.add('hidden');
-            categoriesTabs.classList.add('hidden');
-            searchHeader.classList.remove('hidden');
-            searchQueryDisplay.textContent = `"${query}"`;
-
-            // Filter
-            const matched = allVideos.filter(video => 
-                video.title.toLowerCase().includes(query) || 
-                video.genre.toLowerCase().includes(query)
-            );
-
-            categoriesContainer.innerHTML = '';
-            
-            if (matched.length === 0) {
-                categoriesContainer.innerHTML = `
-                    <div class="text-center py-20 text-slate-500">
-                        কোনো ভিডিও পাওয়া যায়নি! দয়া করে অন্য কী-ওয়ার্ড দিয়ে চেষ্টা করুন।
-                    </div>
-                `;
-            } else {
-                const searchResultsSection = document.createElement('div');
-                searchResultsSection.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6";
-                matched.forEach(v => {
-                    searchResultsSection.appendChild(createVideoCard(v));
-                });
-                categoriesContainer.appendChild(searchResultsSection);
-            }
+        function formatTime(seconds) {
+            if (isNaN(seconds) || seconds === undefined) return "00:00";
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
         }
 
-        function clearSearch() {
-            document.getElementById('search-input').value = '';
-            document.getElementById('search-header').classList.add('hidden');
-            document.getElementById('categories-tabs-wrapper').classList.remove('hidden');
-            document.getElementById('latest-wrapper').classList.remove('hidden');
-            activeCategoryTab = 'all';
-            renderHomeScreen();
-        }
-
-        // Share Feature (Copies simulated URL to Clipboard)
-        function shareCurrentVideo() {
-            const simulatedUrl = `${window.location.origin}${window.location.pathname}${window.location.hash}`;
-            
-            // Modern copy fallback setup for isolated iframe execution safety
-            const tempInput = document.createElement('input');
-            tempInput.value = simulatedUrl;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-
-            showToast("ভিডিওর লিংকটি ক্লিপবোর্ডে কপি করা হয়েছে!");
-        }
-
-        // Toast Messages
         function showToast(message) {
-            const toast = document.getElementById('alert-toast');
-            const toastText = document.getElementById('alert-text');
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 px-5 py-2.5 rounded-full shadow-xl text-sm font-semibold transition-all duration-300 transform scale-90 opacity-0';
+            toast.textContent = message;
             
-            toastText.textContent = message;
-            toast.classList.remove('opacity-0', 'translate-y-[-100px]');
-            toast.classList.add('opacity-100', 'translate-y-0');
-
+            container.appendChild(toast);
             setTimeout(() => {
-                toast.classList.remove('opacity-100', 'translate-y-0');
-                toast.classList.add('opacity-0', 'translate-y-[-100px]');
+                toast.classList.remove('scale-90', 'opacity-0');
+                toast.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.remove('scale-100', 'opacity-100');
+                toast.classList.add('scale-90', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
+
+        function generateVideoCardHTML(video) {
+            return `
+                <a href="#video?id=${video.alias}" class="block w-full bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
+                    <div class="relative w-full aspect-video bg-gray-200 dark:bg-gray-700">
+                        <img src="${video.thumbnail}" alt="${video.title}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${extractVideoID(video.youtubeUrl)}/hqdefault.jpg'">
+                        <div class="absolute bottom-2 right-2 bg-black/80 text-white text-[10px] font-bold px-2 py-1 rounded">
+                            ${video.genre}
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-base font-bold text-gray-900 dark:text-white line-clamp-2 leading-snug">${video.title}</h3>
+                        <p class="text-sm text-gray-500 mt-1.5">${formatDateBangla(video.publishDate)}</p>
+                    </div>
+                </a>
+            `;
+        }
+
+        function generateHorizontalVideoCardHTML(video) {
+            return `
+                <a href="#video?id=${video.alias}" class="flex gap-3 bg-white dark:bg-gray-800 p-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <div class="relative w-36 shrink-0 aspect-video rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700">
+                        <img src="${video.thumbnail}" alt="${video.title}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://img.youtube.com/vi/${extractVideoID(video.youtubeUrl)}/hqdefault.jpg'">
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <h3 class="text-sm font-bold text-gray-900 dark:text-white line-clamp-2 leading-tight mb-1">${video.title}</h3>
+                        <span class="text-xs text-brand font-semibold mb-1">${video.genre}</span>
+                        <p class="text-[11px] text-gray-500">${formatDateBangla(video.publishDate)}</p>
+                    </div>
+                </a>
+            `;
+        }
+
+        // --- Render Home Page ---
+        let feedRenderCount = 0;
+        
+        function renderHome() {
+            if (videosData.length === 0) {
+                document.getElementById('feed-container').innerHTML = '<div class="text-center text-gray-500 mt-10">কোনো ভিডিও পাওয়া যায়নি।</div>';
+                return;
+            }
+
+            // Render Latest (Top 10 sorted by date)
+            const sortedByDate = [...videosData].sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate));
+            const latest10 = sortedByDate.slice(0, 10);
+            const latestContainer = document.getElementById('latest-videos');
+            
+            latestContainer.innerHTML = latest10.map(v => generateVideoCardHTML(v)).join('');
+
+            // Clear categories feed and render first batch
+            const catFeed = document.getElementById('categories-feed');
+            catFeed.innerHTML = '';
+            appendCategoryBatch();
+        }
+
+        function appendCategoryBatch() {
+            const container = document.getElementById('categories-feed');
+            allCategories.forEach(category => {
+                const categoryVideos = videosData.filter(v => v.genre === category);
+                if (categoryVideos.length === 0) return;
+
+                const sectionHTML = `
+                    <div class="mt-8 px-4 fade-in">
+                        <div class="flex items-center justify-between mb-4 border-l-4 border-brand pl-2">
+                            <h2 class="text-xl font-bold text-gray-800 dark:text-white">${category}</h2>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                            ${categoryVideos.map(v => generateVideoCardHTML(v)).join('')}
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', sectionHTML);
+            });
+            feedRenderCount++;
+        }
+
+        // Infinite Scroll Logic
+        function setupInfiniteScroll() {
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && videosData.length > 0) {
+                    appendCategoryBatch();
+                }
+            }, { rootMargin: '100px' });
+            
+            const trigger = document.getElementById('scroll-trigger');
+            if (trigger) observer.observe(trigger);
+        }
+
+        // --- Search Action ---
+        function handleSearch(e) {
+            const query = e.target.value.toLowerCase().trim();
+            const feedContainer = document.getElementById('feed-container');
+            const searchContainer = document.getElementById('search-results-container');
+            const searchGrid = document.getElementById('search-results-grid');
+
+            if (query === '') {
+                feedContainer.classList.remove('hidden');
+                searchContainer.classList.add('hidden');
+                return;
+            }
+
+            feedContainer.classList.add('hidden');
+            searchContainer.classList.remove('hidden');
+
+            const results = videosData.filter(v => 
+                v.title.toLowerCase().includes(query) || 
+                v.genre.toLowerCase().includes(query)
+            );
+
+            if (results.length === 0) {
+                searchGrid.innerHTML = `
+                    <div class="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-10">
+                        <svg class="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <p class="text-gray-500 dark:text-gray-400">কোনো ফলাফল পাওয়া যায়নি!</p>
+                    </div>`;
+            } else {
+                searchGrid.innerHTML = results.map(v => generateVideoCardHTML(v)).join('');
+            }
+        }
+
+        // --- Custom Player Actions ---
+        function setupPlayerControls() {
+            const playPauseBtn = document.getElementById('ctrl-play-pause');
+            const bigPlayBtn = document.getElementById('ctrl-big-play');
+            const seekbar = document.getElementById('ctrl-seekbar');
+            const muteBtn = document.getElementById('ctrl-mute');
+            const volSlider = document.getElementById('ctrl-vol-slider');
+            const fullscreenBtn = document.getElementById('ctrl-fullscreen');
+            const customPlayer = document.getElementById('custom-video-player');
+            const controlsOverlay = document.getElementById('custom-controls');
+            const middlePlayTrigger = document.getElementById('middle-play-trigger');
+
+            // Play / Pause Action
+            const togglePlayState = (e) => {
+                if (e) e.stopPropagation();
+                if (!ytPlayer || typeof ytPlayer.getPlayerState !== 'function') return;
+                
+                const state = ytPlayer.getPlayerState();
+                if (state === YT.PlayerState.PLAYING) {
+                    ytPlayer.pauseVideo();
+                } else {
+                    ytPlayer.playVideo();
+                }
+                resetControlsTimeout();
+            };
+
+            playPauseBtn.addEventListener('click', togglePlayState);
+            bigPlayBtn.addEventListener('click', togglePlayState);
+            middlePlayTrigger.addEventListener('click', togglePlayState);
+
+            // Mute / Unmute
+            muteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!ytPlayer || typeof ytPlayer.isMuted !== 'function') return;
+                
+                if (ytPlayer.isMuted()) {
+                    ytPlayer.unMute();
+                    volSlider.value = 100;
+                    ytPlayer.setVolume(100);
+                    updateVolumeIcons(false);
+                } else {
+                    ytPlayer.mute();
+                    volSlider.value = 0;
+                    ytPlayer.setVolume(0);
+                    updateVolumeIcons(true);
+                }
+                resetControlsTimeout();
+            });
+
+            // Volume Change
+            volSlider.addEventListener('input', (e) => {
+                e.stopPropagation();
+                if (!ytPlayer || typeof ytPlayer.setVolume !== 'function') return;
+                const val = parseInt(e.target.value);
+                ytPlayer.setVolume(val);
+                if (val === 0) {
+                    ytPlayer.mute();
+                    updateVolumeIcons(true);
+                } else {
+                    ytPlayer.unMute();
+                    updateVolumeIcons(false);
+                }
+            });
+            // Stop propagation on slider to avoid triggers
+            volSlider.addEventListener('click', (e) => e.stopPropagation());
+
+            // Seekbar logic (Click and Drag)
+            const handleSeek = (e) => {
+                if (!ytPlayer || typeof ytPlayer.getDuration !== 'function') return;
+                const rect = seekbar.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clickX = clientX - rect.left;
+                const percentage = Math.min(Math.max(clickX / rect.width, 0), 1);
+                const duration = ytPlayer.getDuration();
+                
+                if (duration > 0) {
+                    const targetTime = duration * percentage;
+                    ytPlayer.seekTo(targetTime, true);
+                    updateSeekbarUI(targetTime, duration);
+                }
+            };
+
+            seekbar.addEventListener('click', (e) => {
+                e.stopPropagation();
+                handleSeek(e);
+            });
+
+            // Touch and Drag seeking mechanics
+            let isDraggingSeek = false;
+            const startDrag = (e) => { 
+                e.stopPropagation(); 
+                isDraggingSeek = true; 
+                handleSeek(e); 
+            };
+            const dragMove = (e) => { 
+                if (isDraggingSeek) {
+                    e.stopPropagation();
+                    handleSeek(e); 
+                }
+            };
+            const stopDrag = () => { isDraggingSeek = false; };
+
+            seekbar.addEventListener('mousedown', startDrag);
+            window.addEventListener('mousemove', dragMove);
+            window.addEventListener('mouseup', stopDrag);
+
+            seekbar.addEventListener('touchstart', startDrag, { passive: false });
+            window.addEventListener('touchmove', dragMove, { passive: false });
+            window.addEventListener('touchend', stopDrag);
+
+            // Fullscreen Toggle
+            fullscreenBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!document.fullscreenElement) {
+                    customPlayer.requestFullscreen().catch(err => {
+                        console.error("Fullscreen Request Failed: ", err);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            // Auto-hide Mechanism
+            const resetControlsTimeout = () => {
+                controlsOverlay.classList.remove('controls-hidden');
+                clearTimeout(controlsTimeout);
+                
+                if (ytPlayer && typeof ytPlayer.getPlayerState === 'function') {
+                    if (ytPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+                        controlsTimeout = setTimeout(() => {
+                            controlsOverlay.classList.add('controls-hidden');
+                        }, 3500);
+                    }
+                }
+            };
+
+            customPlayer.addEventListener('mousemove', resetControlsTimeout);
+            customPlayer.addEventListener('touchstart', resetControlsTimeout, { passive: true });
+            
+            // Handle clicking outside control elements on the overlay to Toggle Play
+            controlsOverlay.addEventListener('click', (e) => {
+                if (e.target.closest('button') || e.target.closest('input') || e.target.closest('#ctrl-seekbar')) return;
+                togglePlayState(e);
+            });
+        }
+
+        function updateVolumeIcons(isMuted) {
+            const highIcon = document.getElementById('vol-high');
+            const mutedIcon = document.getElementById('vol-muted');
+            if (isMuted) {
+                highIcon.classList.add('hidden');
+                mutedIcon.classList.remove('hidden');
+            } else {
+                highIcon.classList.remove('hidden');
+                mutedIcon.classList.add('hidden');
+            }
+        }
+
+        function updateSeekbarUI(currentTime, duration) {
+            const seekbarFill = document.getElementById('ctrl-seekbar-fill');
+            const seekbarHandle = document.getElementById('ctrl-seekbar-handle');
+            const timeDisplay = document.getElementById('ctrl-time-display');
+
+            const percent = duration > 0 ? (currentTime / duration) * 100 : 0;
+            seekbarFill.style.width = `${percent}%`;
+            seekbarHandle.style.left = `${percent}%`;
+
+            timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(duration)}`;
+        }
+
+        // --- Render Specific Video Inside Player ---
+        let currentShareAlias = '';
+        
+        function renderVideoPlayer(alias) {
+            const video = videosData.find(v => v.alias === alias);
+            
+            if (!video) {
+                document.getElementById('video-outer-container').innerHTML = `
+                    <div class="w-full aspect-video flex flex-col items-center justify-center bg-gray-900">
+                        <p class="text-white text-lg font-bold">ভিডিওটি খুঁজে পাওয়া যায়নি!</p>
+                        <a href="#/" class="mt-4 px-4 py-2 bg-brand text-gray-900 rounded-full text-sm font-bold hover:bg-brandDark">হোমে ফিরে যান</a>
+                    </div>`;
+                document.getElementById('video-metadata').classList.add('hidden');
+                return;
+            }
+
+            document.getElementById('video-metadata').classList.remove('hidden');
+            document.getElementById('player-top-title').textContent = video.title;
+            
+            const ytId = extractVideoID(video.youtubeUrl);
+
+            // Set Metadata Info
+            document.getElementById('video-title').textContent = video.title;
+            document.getElementById('video-date').textContent = "প্রকাশিত: " + formatDateBangla(video.publishDate);
+            document.getElementById('video-genre').textContent = video.genre;
+            currentShareAlias = video.alias;
+
+            // Load Youtube Native Player securely
+            if (window.YT && window.YT.Player) {
+                initYTPlayerInstance(ytId);
+            } else {
+                const checkYT = setInterval(() => {
+                    if (window.YT && window.YT.Player) {
+                        clearInterval(checkYT);
+                        initYTPlayerInstance(ytId);
+                    }
+                }, 100);
+            }
+
+            // Render Recommended Related List (Same Genre)
+            const relatedContainer = document.getElementById('related-videos-list');
+            const related = videosData.filter(v => v.genre === video.genre && v.alias !== video.alias);
+            
+            if (related.length > 0) {
+                relatedContainer.innerHTML = related.map(v => generateHorizontalVideoCardHTML(v)).join('');
+            } else {
+                relatedContainer.innerHTML = '<p class="text-sm text-gray-500">এই ক্যাটাগরিতে আর কোনো ভিডিও নেই।</p>';
+            }
+        }
+
+        // Safe Native-Like Player Initializer
+        function initYTPlayerInstance(ytId) {
+            // Destroy former instance securely if exist
+            if (ytPlayer) {
+                try {
+                    ytPlayer.destroy();
+                } catch(e) {
+                    console.log("Player destruction logging:", e);
+                }
+                ytPlayer = null;
+            }
+
+            // Fresh rebuild of the target container to prevent YT API bindings failure
+            const playerWrapper = document.getElementById('custom-video-player');
+            const placeholder = document.getElementById('yt-player-placeholder');
+            if (placeholder) {
+                placeholder.remove();
+            }
+            playerWrapper.insertAdjacentHTML('afterbegin', '<div id="yt-player-placeholder"></div>');
+
+            ytPlayer = new YT.Player('yt-player-placeholder', {
+                height: '100%',
+                width: '100%',
+                videoId: ytId,
+                playerVars: {
+                    autoplay: 1,
+                    controls: 0,          // Disable default overlay
+                    disablekb: 1,        // Disable hotkeys
+                    modestbranding: 1,   // Hide logo
+                    rel: 0,              // Disable relative links
+                    showinfo: 0,         // Obfuscate title
+                    iv_load_policy: 3,   // Prevent annotation popups
+                    fs: 0,               // Disable full screen native control
+                    playsinline: 1       // Allow inline player on Safari iOS
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange,
+                    'onError': onPlayerError
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Start updating progress bar real-time
+            if (updateTimer) clearInterval(updateTimer);
+            updateTimer = setInterval(() => {
+                if (ytPlayer && typeof ytPlayer.getCurrentTime === 'function') {
+                    const currentTime = ytPlayer.getCurrentTime();
+                    const duration = ytPlayer.getDuration();
+                    updateSeekbarUI(currentTime, duration);
+                }
+            }, 300);
+
+            // Attempt Autoplay
+            event.target.playVideo();
+        }
+
+        function onPlayerStateChange(event) {
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
+            const bigPlayIcon = document.getElementById('big-play-icon');
+            const bigPauseIcon = document.getElementById('big-pause-icon');
+            const controlsOverlay = document.getElementById('custom-controls');
+
+            if (event.data === YT.PlayerState.PLAYING) {
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+                bigPlayIcon.classList.add('hidden');
+                bigPauseIcon.classList.remove('hidden');
+                
+                // Set default volume settings on load
+                const volSlider = document.getElementById('ctrl-vol-slider');
+                if (ytPlayer && typeof ytPlayer.setVolume === 'function') {
+                    ytPlayer.setVolume(parseInt(volSlider.value));
+                    if(parseInt(volSlider.value) === 0) {
+                        ytPlayer.mute();
+                        updateVolumeIcons(true);
+                    } else {
+                        ytPlayer.unMute();
+                        updateVolumeIcons(false);
+                    }
+                }
+
+                // Autohide controls on load playing
+                clearTimeout(controlsTimeout);
+                controlsTimeout = setTimeout(() => {
+                    controlsOverlay.classList.add('controls-hidden');
+                }, 3000);
+
+            } else {
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+                bigPlayIcon.classList.remove('hidden');
+                bigPauseIcon.classList.add('hidden');
+                
+                // Show controls on stop/pause
+                controlsOverlay.classList.remove('controls-hidden');
+            }
+        }
+
+        function onPlayerError(event) {
+            console.error("YouTube Player Error occurred: ", event.data);
+            showToast("ভিডিওটি প্লে করতে সমস্যা হচ্ছে। অনুগ্রহ করে আবার চেষ্টা করুন।");
+        }
+
+        // --- Share Action ---
+        function handleShare() {
+            if (!currentShareAlias) return;
+            const shareUrl = window.location.origin + window.location.pathname + '#video?id=' + currentShareAlias;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ক্ষেত্রফল ভিডিও প্ল্যাটফর্ম',
+                    text: 'ক্ষেত্রফল চ্যানেলের দুর্দান্ত এই ভিডিওটি দেখুন!',
+                    url: shareUrl
+                }).catch(err => {
+                    console.log('Sharing error:', err);
+                });
+            } else {
+                // Clipboard fallback using document.execCommand
+                const tmp = document.createElement('input');
+                document.body.appendChild(tmp);
+                tmp.value = shareUrl;
+                tmp.select();
+                try {
+                    document.execCommand('copy');
+                    showToast('ভিডিওর লিংক ক্লিপবোর্ডে কপি করা হয়েছে!');
+                } catch (err) {
+                    showToast('দুঃখিত, লিংক কপি করা যায়নি।');
+                }
+                document.body.removeChild(tmp);
+            }
+        }
+
+        // Launch Application
+        window.addEventListener('DOMContentLoaded', initApp);
+
     </script>
 </body>
 </html>
-
