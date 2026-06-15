@@ -1,0 +1,141 @@
+        /* Custom Font Setup */
+        @font-face {
+            font-family: 'LalSabuj';
+            src: url('https://khetrofol.github.io/assets/Lal_Sabuj_Normal_31-08-2012.ttf') format('truetype');
+            font-display: swap;
+        }
+
+        body {
+            font-family: 'LalSabuj', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            scroll-behavior: smooth;
+        }
+
+        /* Glassmorphism Classes */
+        .glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .dark .glass {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Hide Scrollbar but keep functionality */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Simple Yellow Loading Animation */
+        .loader-container {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            transition: opacity 0.5s ease;
+        }
+        .dark .loader-container {
+            background-color: #111827;
+        }
+        .loader-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid transparent;
+            border-top: 4px solid #FFD629;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* App Layout Adjustments */
+        #app-content {
+            padding-bottom: 90px;
+            min-height: 100vh;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Video Container Aspect Ratio */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        /* Prevent clicks directly on YouTube to bypass custom controls on desktop/mobile */
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Custom controls overlay positioning */
+        .custom-player-controls {
+            transition: opacity 0.3s ease;
+        }
+        .custom-player-controls.controls-hidden {
+            opacity: 0;
+            pointer-events: none; /* Let clicks pass through when hidden */
+        }
+
+        /* Seekbar styles */
+        .seekbar-container {
+            position: relative;
+            height: 6px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            cursor: pointer;
+            transition: height 0.1s ease;
+        }
+        .seekbar-container:hover {
+            height: 8px;
+        }
+        .seekbar-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: #FFD629;
+            border-radius: 3px;
+            width: 0%;
+        }
+        .seekbar-handle {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            left: 0%;
+            width: 14px;
+            height: 14px;
+            background-color: #FFD629;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            opacity: 1; /* Keep visible on mobile for better touch targeting */
+            transition: transform 0.1s ease;
+        }
+        .seekbar-container:hover .seekbar-handle {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
