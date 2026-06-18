@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <style>
+        /* পুরো স্ক্রিন সম্পূর্ণ ব্ল্যাঙ্ক রাখার জন্য স্টাইলিং */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000; /* সম্পূর্ণ কালো ব্যাকগ্রাউন্ড (ব্ল্যাঙ্ক স্ক্রিন) */
+            overflow: hidden;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        // উইন্ডো লোড হওয়ার পর রিডাইরেক্ট প্রসেস শুরু হবে
+        window.addEventListener('DOMContentLoaded', () => {
+            
+            // অনুমোদিত লিংক সমূহের তালিকা (এখানে অবিকল বা এক্সাক্ট লিংক দিতে হবে)
+            // যেকোনো নতুন লিংক এলাও করতে চাইলে এই অ্যারেতে যুক্ত করুন
+            const allowedLinks = [
+                "https://m.youtube.com/@Khetrofol",
+                "https://www.facebook.com/KhetrofolOfficial",
+                "https://m.facebook.com/KhetrofolOfficial",
+                "https://khetrofol.github.io"
+            ];
+
+            // ইউআরএল থেকে কোয়েরি প্যারামিটার রিড করা
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetLink = urlParams.get('link');
+
+            // যদি লিংক প্যারামিটার না থাকে অথবা অনুমোদিত তালিকার সাথে হুবহু না মিলে, তবে /404 এ রিডাইরেক্ট হবে
+            if (!targetLink || !allowedLinks.includes(targetLink)) {
+                // ১ মিলি সেকেন্ডের মধ্যে ব্লক করে /404 এ পাঠিয়ে দেওয়া হবে
+                window.location.href = "/404";
+                return;
+            }
+
+            // সোর্স (যে পেজ থেকে ইউজার এসেছে) ডিটেক্ট করা
+            let referrerSource = document.referrer ? document.referrer : "direct_access";
+            // সোর্স ইউআরএল ক্লিন করা যাতে স্পেশাল ক্যারেক্টার সমস্যা না করে
+            try {
+                referrerSource = encodeURIComponent(new URL(referrerSource).hostname || "direct");
+            } catch (e) {
+                referrerSource = "secure_direct";
+            }
+
+            // সিকিউরিটি প্যারামিটারসমূহ তৈরি করা (ব্যবহারকারীকে আমাদের কঠোর নিরাপত্তা দেখানোর জন্য)
+            const timestamp = Date.now();
+            const dateStr = new Date().toISOString().split('T')[0];
+            const eventId = "EVT-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+            const securityToken = "SEC-" + btoa(targetLink).substring(0, 16).replace(/[^a-zA-Z0-9]/g, '');
+            const integrityHash = "sha256_" + Math.random().toString(36).substr(2, 15) + Math.random().toString(36).substr(2, 15);
+
+            // ব্রাউজারের অ্যাড্রেস বারে অতিরিক্ত সিকিউরিটি ডাটা পুশ করা (পেজ রিলোড বা পরিবর্তন না করেই)
+            const decoratedUrl = new URL(window.location.href);
+            decoratedUrl.searchParams.set('event_id', eventId);
+            decoratedUrl.searchParams.set('secure_token', securityToken);
+            decoratedUrl.searchParams.set('timestamp', timestamp);
+            decoratedUrl.searchParams.set('date', dateStr);
+            decoratedUrl.searchParams.set('source', referrerSource);
+            decoratedUrl.searchParams.set('integrity_check', integrityHash);
+            decoratedUrl.searchParams.set('status', 'verified_secure');
+
+            // ইউজার হিস্ট্রিতে ইউআরএলটি আপডেট করা যাতে ব্রাউজারের অ্যাড্রেস বারে এগুলো দেখায়
+            window.history.replaceState(null, '', decoratedUrl.toString());
+
+            // ঠিক ২ সেকেন্ড (২০০০ মিলি-সেকেন্ড) ব্ল্যাঙ্ক স্ক্রিন ধরে রেখে রিডাইরেক্ট সম্পন্ন করা
+            setTimeout(() => {
+                window.location.href = targetLink;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
