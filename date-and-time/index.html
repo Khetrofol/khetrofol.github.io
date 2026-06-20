@@ -1,0 +1,990 @@
+
+<!DOCTYPE html>
+<html lang="bn" class="dark h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>তারিখ এবং সময় - ক্ষেত্রফল | বিশ্বের সকল দেশের লাইভ সময় ও তারিখ ট্র্যাকিং পোর্টাল</title>
+    
+    <!-- এসইও ও মেটা ডেটা অপ্টিমাইজেশান -->
+    <meta name="description" content="ক্ষেত্রফল এর নিখুঁত লাইভ বিশ্ব সময় ও তারিখ ট্র্যাকিং পোর্টাল। কোনো প্রকার থার্ড-পার্টি এপিআই ছাড়াই বিশ্বের প্রতিটি দেশের রাজধানীর লাইভ ও নির্ভুল সময় প্রদান করে।">
+    <meta name="keywords" content="তারিখ, সময়, ক্ষেত্রফল, world clock, live time, bangladesh time, time zone tool, khetrofol clock, khetrofol time, সব দেশের সময়, লাইভ সময়">
+    <meta name="author" content="ক্ষেত্রফল">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="তারিখ এবং সময় - ক্ষেত্রফল | গ্লোবাল লাইভ ওয়ার্ল্ড টাইম">
+    <meta property="og:description" content="বিশ্বের যেকোনো দেশের স্থানীয় সময় ও তারিখ ট্র্যাক করুন স্বয়ংক্রিয়ভাবে। নিজস্ব অ্যালগরিদমে নির্ভুল সময় ও ক্যালেন্ডার।">
+    <meta property="og:image" content="https://i.ibb.co/k28zXtHf/1000176527.png">
+    <meta property="og:url" content="https://khetrofol.github.io/">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- ব্র্যান্ড ফেভিকন -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/k28zXtHf/1000176527.png">
+    
+    <!-- টেলউইন্ড সিএসএস সিডিএন -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#FFD629',
+                        darkBg: '#050505',
+                        darkCard: '#0E0E10',
+                        darkBorder: '#1A1A1E'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- কাস্টম সিএসএস ও ফন্ট লোডিং -->
+    <style>
+        @font-face {
+            font-family: 'LalSabuj';
+            src: url('https://khetrofol.github.io/assets/Lal_Sabuj_Normal_31-08-2012.ttf') format('truetype');
+            font-display: swap;
+        }
+        
+        /* সম্পূর্ণ সাইটে লাল-সবুজ ফন্ট বাধ্যতামূলক করা হলো */
+        body, button, input, select, textarea, span, p, div {
+            font-family: 'LalSabuj', system-ui, -apple-system, sans-serif !important;
+        }
+
+        body {
+            background-color: #050505;
+            color: #E4E4E7;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* স্ক্রলবার স্টাইল */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFD629;
+            border-radius: 999px;
+        }
+
+        /* প্রিমিয়াম গ্লাসমরফিক প্যানেল */
+        .glass-panel {
+            background: rgba(14, 14, 16, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 214, 41, 0.08);
+        }
+
+        .brand-glow {
+            text-shadow: 0 0 15px rgba(255, 214, 41, 0.45);
+        }
+
+        .brand-glow-box {
+            box-shadow: 0 0 25px rgba(255, 214, 41, 0.12);
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col justify-between overflow-x-hidden">
+
+    <!-- মূল অ্যাপ্লিকেশন কন্টেইনার (আইফ্রেম ভিউতে এটি পুরোপুরি ডিলিট বা হাইড করা হবে) -->
+    <div id="full-app-container" class="flex-grow flex flex-col min-h-screen">
+        
+        <!-- গ্লাসমরফিক টপ নেভিগেশন বার -->
+        <nav class="sticky top-0 z-50 glass-panel border-b border-white/5 px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="#" class="flex items-center space-x-2.5">
+                    <img src="https://i.ibb.co/k28zXtHf/1000176527.png" alt="ক্ষেত্রফল লোগো" class="w-9 h-9 rounded-full border-2 border-brand object-cover">
+                    <span class="text-white font-bold text-lg tracking-wide hover:text-brand transition">তারিখ এবং সময় - ক্ষেত্রফল</span>
+                </a>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <!-- সার্চ বাটন -->
+                <button onclick="navigateTo('search')" class="p-2 rounded-xl bg-neutral-900/60 border border-neutral-800 hover:border-brand/40 text-neutral-400 hover:text-brand transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </button>
+                <!-- সেটিংস বাটন -->
+                <button onclick="navigateTo('settings')" class="p-2 rounded-xl bg-neutral-900/60 border border-neutral-800 hover:border-brand/40 text-neutral-400 hover:text-brand transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <!-- মূল অ্যাপ ভিউ কন্টেন্ট এরিয়া (মোবাইল অ্যাপ ফ্রেম লুক) -->
+        <main class="flex-grow max-w-lg w-full mx-auto px-4 py-6 flex flex-col space-y-6">
+
+            <!-- ১. ড্যাশবোর্ড স্ক্রিন -->
+            <div id="screen-home" class="screen-view flex flex-col space-y-6">
+                
+                <!-- লাইভ ঘড়ি কার্ড -->
+                <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-neutral-900 to-black border border-brand/20 p-6 brand-glow-box text-center">
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-brand/5 rounded-full blur-2xl"></div>
+                    
+                    <!-- সক্রিয় অঞ্চল ও পতাকা -->
+                    <div class="flex items-center justify-center space-x-2.5 mb-2">
+                        <img id="main-country-flag" src="" alt="পতাকা" class="w-6 h-4 object-cover rounded shadow-sm hidden">
+                        <span id="main-country-name" class="text-xl font-bold text-white tracking-wide">দেশ সনাক্ত হচ্ছে...</span>
+                    </div>
+                    <p id="main-timezone-label" class="text-xs text-neutral-400 tracking-wider uppercase mb-5">ক্যাপিটাল টাইমজোন সিঙ্কড</p>
+                    
+                    <!-- প্রিসাইজ লাইভ টাইম -->
+                    <div class="flex flex-col items-center justify-center space-y-1 my-3">
+                        <div id="main-clock-display" class="text-5xl sm:text-6xl font-bold text-brand tracking-widest brand-glow leading-none">
+                            ০০:০০:০০
+                        </div>
+                        <div id="main-period-display" class="text-xs font-bold text-neutral-400 mt-2 uppercase tracking-widest">
+                            পূর্বাহ্ন (AM)
+                        </div>
+                    </div>
+
+                    <!-- ক্যালেন্ডার কার্ডস -->
+                    <div class="mt-6 pt-5 border-t border-white/5 grid grid-cols-3 gap-2">
+                        <div class="bg-neutral-900/60 p-2.5 rounded-xl border border-white/5">
+                            <span class="block text-[10px] text-neutral-500 uppercase tracking-widest mb-1">আজকের দিন</span>
+                            <span id="card-day-name" class="text-xs font-bold text-white">-</span>
+                        </div>
+                        <div class="bg-neutral-900/60 p-2.5 rounded-xl border border-white/5">
+                            <span class="block text-[10px] text-neutral-500 uppercase tracking-widest mb-1">তারিখ</span>
+                            <span id="card-date-num" class="text-sm font-bold text-white">-</span>
+                        </div>
+                        <div class="bg-neutral-900/60 p-2.5 rounded-xl border border-white/5">
+                            <span class="block text-[10px] text-neutral-500 uppercase tracking-widest mb-1">মাস ও বছর</span>
+                            <span id="card-month-year" class="text-xs font-bold text-white truncate">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- কুইক ওয়ার্ল্ড ভিউ অব কন্টিনেন্টস -->
+                <div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-neutral-505 mb-3.5 flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h2m4-1c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8a9.863 9.863 0 014.255.949L21 4l-1.395 3.72C20.488 8.958 21 10.426 21 12z"/>
+                        </svg>
+                        <span>বিশ্বের শীর্ষস্থানীয় অঞ্চলের সময়</span>
+                    </h3>
+                    <div class="grid grid-cols-1 gap-2.5" id="quick-world-clocks-container">
+                        <!-- ডাইনামিকালি রেন্ডার হবে -->
+                    </div>
+                </div>
+
+                <!-- আইফ্রেম ব্যানার -->
+                <div onclick="navigateTo('iframe-builder')" class="cursor-pointer group p-4 rounded-2xl bg-neutral-900/50 hover:bg-neutral-900 border border-neutral-800 hover:border-brand/30 transition duration-300 flex items-center justify-between">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="p-3 rounded-xl bg-brand/10 text-brand group-hover:scale-105 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-sm">আইফ্রেম উইজেট কোড নিন</h4>
+                            <p class="text-xs text-neutral-400">আপনার ব্লগে বা ওয়েবসাইটে যুক্ত করার জন্য</p>
+                        </div>
+                    </div>
+                    <svg class="w-5 h-5 text-neutral-500 group-hover:text-brand transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </div>
+
+            </div>
+
+            <!-- ২. গ্লোবাল সার্চ স্ক্রিন -->
+            <div id="screen-search" class="screen-view hidden flex flex-col space-y-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-white">বিশ্বের সকল দেশের সার্চ ইঞ্জিন</h2>
+                    <button onclick="navigateTo('home')" class="text-xs text-brand hover:underline">ড্যাশবোর্ড</button>
+                </div>
+                
+                <div class="relative">
+                    <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="দেশের নাম বা রাজধানীর নাম লিখুন..." class="w-full bg-neutral-900 border border-neutral-800 focus:border-brand rounded-xl px-4 py-3.5 pl-11 text-white focus:outline-none placeholder-neutral-500 text-sm transition">
+                    <div class="absolute left-4 top-4 text-neutral-500">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div id="search-results" class="space-y-2 max-h-[60vh] overflow-y-auto pr-1">
+                    <!-- সার্চ ডাটাবেস ফলাফল এখানে রেন্ডার হবে -->
+                </div>
+            </div>
+
+            <!-- ৩. কাস্টম সেটিংস স্ক্রিন -->
+            <div id="screen-settings" class="screen-view hidden flex flex-col space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-white">কনফিগারেশন সেটিংস</h2>
+                    <button onclick="navigateTo('home')" class="text-xs text-brand hover:underline">ড্যাশবোর্ড</button>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- ১২/২৪ ঘণ্টা প্রদর্শন সেটিংস -->
+                    <div class="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800 flex items-center justify-between">
+                        <div>
+                            <h4 class="text-sm font-bold text-white">১২ ঘণ্টার সময় ফরম্যাট</h4>
+                            <p class="text-xs text-neutral-400">এএম এবং পিএম অনুযায়ী সময় দেখতে পাবেন</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="setting-format-12h" checked onchange="toggleFormatSetting(this.checked)" class="sr-only peer">
+                            <div class="w-11 h-6 bg-neutral-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-neutral-400 after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand peer-checked:after:bg-black peer-checked:after:border-black"></div>
+                        </label>
+                    </div>
+
+                    <!-- সেকেন্ড হ্যান্ডেল সেটিংস -->
+                    <div class="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800 flex items-center justify-between">
+                        <div>
+                            <h4 class="text-sm font-bold text-white">লাইভ সেকেন্ডের কাঁপন প্রদর্শন</h4>
+                            <p class="text-xs text-neutral-400">ঘণ্টা ও মিনিটের পাশে সেকেন্ড কাউন্টার</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="setting-show-seconds" checked onchange="toggleSecondsSetting(this.checked)" class="sr-only peer">
+                            <div class="w-11 h-6 bg-neutral-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-neutral-400 after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand peer-checked:after:bg-black peer-checked:after:border-black"></div>
+                        </label>
+                    </div>
+
+                    <!-- সাইলেন্ট আইপি ট্র্যাকিং ডিটেইলস -->
+                    <div class="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800">
+                        <h4 class="text-sm font-bold text-white mb-2">সুরক্ষিত নো-লোকেশন ডিটেক্টর</h4>
+                        <p class="text-xs text-neutral-400 leading-relaxed mb-4">
+                            নিরাপত্তার স্বার্থে ব্রাউজারের কোনো পারমিশন ছাড়াই আপনার সেশন প্যারামিটার এবং আইপি গেটওয়ের মাধ্যমে নিকটস্থ ক্যাপিটাল ডাটা সিঙ্ক করা হয়েছে।
+                        </p>
+                        <div class="text-xs bg-black/40 p-3.5 rounded-xl border border-neutral-800 font-mono space-y-1.5">
+                            <div class="flex justify-between"><span class="text-neutral-500">ডিটেক্টেড টাইমজোন:</span> <span id="debug-tz" class="text-brand">-</span></div>
+                            <div class="flex justify-between"><span class="text-neutral-500">আইপি বেইজড ক্যাপিটাল:</span> <span id="debug-country" class="text-brand">-</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ৪. আইফ্রেম উইজেট স্ক্রিন -->
+            <div id="screen-iframe-builder" class="screen-view hidden flex flex-col space-y-6">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold text-white">উইজেট কনফিগারেটর</h2>
+                    <button onclick="navigateTo('home')" class="text-xs text-brand hover:underline">ড্যাশবোর্ড</button>
+                </div>
+
+                <div class="space-y-5">
+                    <!-- কাস্টমাইজার উইজেট প্যানেল -->
+                    <div class="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4">
+                        <h3 class="text-xs font-bold uppercase text-neutral-400 tracking-wider">রেন্ডার প্রিফারেন্স</h3>
+                        
+                        <!-- রঙ কাস্টমাইজেশন -->
+                        <div>
+                            <label class="block text-xs text-neutral-400 mb-2">সময় ও তারিখের রঙ (Hex কোড)</label>
+                            <div class="flex space-x-2">
+                                <input type="color" id="iframe-color-picker" value="#FFD629" oninput="updateIframeColorText(this.value)" class="w-10 h-10 rounded-lg border-0 cursor-pointer bg-transparent">
+                                <input type="text" id="iframe-color-text" value="#FFD629" oninput="updateIframeColorPicker(this.value)" class="flex-grow bg-black/50 border border-neutral-800 rounded-lg px-3 py-1.5 text-sm text-white font-mono focus:outline-none focus:border-brand">
+                            </div>
+                        </div>
+
+                        <!-- ফন্ট সিলেকশন -->
+                        <div>
+                            <label class="block text-xs text-neutral-400 mb-2">উইজেট ফন্ট স্টাইল</label>
+                            <select id="iframe-font-select" onchange="generateIframeCode()" class="w-full bg-black/50 border border-neutral-800 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand">
+                                <option value="LalSabuj">ক্ষেত্রফল লাল-সবুজ ফন্ট</option>
+                                <option value="sans-serif">স্ট্যান্ডার্ড সিস্টেম ফন্ট</option>
+                            </select>
+                        </div>
+
+                        <!-- চেকবক্সসমূহ -->
+                        <div class="space-y-2.5 pt-2">
+                            <label class="flex items-center space-x-3 cursor-pointer">
+                                <input type="checkbox" id="iframe-show-time" checked onchange="generateIframeCode()" class="rounded bg-black border-neutral-800 text-brand focus:ring-brand w-4 h-4">
+                                <span class="text-xs text-neutral-300">সময় প্রদর্শন করুন</span>
+                            </label>
+                            <label class="flex items-center space-x-3 cursor-pointer">
+                                <input type="checkbox" id="iframe-show-date" checked onchange="generateIframeCode()" class="rounded bg-black border-neutral-800 text-brand focus:ring-brand w-4 h-4">
+                                <span class="text-xs text-neutral-300">তারিখ প্রদর্শন করুন</span>
+                            </label>
+                            <label class="flex items-center space-x-3 cursor-pointer">
+                                <input type="checkbox" id="iframe-transparent-bg" checked onchange="generateIframeCode()" class="rounded bg-black border-neutral-800 text-brand focus:ring-brand w-4 h-4">
+                                <span class="text-xs text-neutral-300">ব্যাকগ্রাউন্ড ট্রান্সপারেন্ট রাখুন</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- লাইভ প্রিভিউ -->
+                    <div>
+                        <h3 class="text-xs font-bold uppercase text-neutral-400 tracking-wider mb-2.5">আইফ্রেম লাইভ প্রিভিউ</h3>
+                        <div class="p-4 rounded-2xl bg-neutral-950 border border-neutral-800 flex items-center justify-center min-h-[140px] relative">
+                            <!-- এখানে সরাসরি সোর্স থাকবে না, ডায়নামিকালি সেট হবে -->
+                            <iframe id="iframe-preview-window" class="w-full h-24 border-0" src=""></iframe>
+                        </div>
+                    </div>
+
+                    <!-- এম্বেড কোড কপি এরিয়া -->
+                    <div>
+                        <h3 class="text-xs font-bold uppercase text-neutral-400 tracking-wider mb-2.5">এম্বেড করার কোড</h3>
+                        <div class="relative">
+                            <textarea id="iframe-embed-code" readonly class="w-full h-24 bg-neutral-900 border border-neutral-800 rounded-xl p-3 text-xs font-mono text-neutral-300 focus:outline-none resize-none"></textarea>
+                            <button onclick="copyEmbedCode()" class="absolute right-2.5 bottom-3 px-3.5 py-1.5 bg-brand text-black font-bold text-xs rounded-lg hover:bg-white transition flex items-center space-x-1.5 active:scale-95">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+                                </svg>
+                                <span id="copy-btn-text">কপি করুন</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+
+        <!-- ফুটার ব্র্যান্ডিং -->
+        <footer class="mt-auto py-5 border-t border-white/5 text-center px-4">
+            <p class="text-xs text-neutral-600 tracking-widest">© ২০২৬ তারিখ এবং সময় - ক্ষেত্রফল। সর্বস্বত্ব সংরক্ষিত।</p>
+        </footer>
+
+    </div>
+
+    <!-- এম্বেড উইজেট কন্টেইনার (এটি শুধুমাত্র তখনই সক্রিয় হবে যখন আইফ্রেমের মাধ্যমে লোড করা হবে) -->
+    <div id="embed-widget-container" class="hidden fixed inset-0 w-full h-full p-2 flex flex-col justify-center items-center text-center overflow-hidden z-[9999]">
+        <div id="embed-clock-display" class="font-bold leading-none brand-glow">০০:০০:০০</div>
+        <div id="embed-date-display" class="text-base mt-2 leading-none font-bold">তারিখ লোড হচ্ছে...</div>
+    </div>
+
+    <!-- স্ক্রিন ম্যানেজার এবং টাইম অ্যান্ড ডেট সিঙ্ক ইঞ্জিন -->
+    <script>
+        // বিশ্বের স্বাধীন দেশের অতি বিস্তৃত ডাটাবেস (বাংলা নাম, দেশের ক্যাপিটাল, ক্যাপিটাল টাইমজোন এবং ফ্লাগ কোড)
+        const countryDatabase = [
+            { id: "bangladesh", name: "বাংলাদেশ", city: "ঢাকা", timezone: "Asia/Dhaka", code: "bd" },
+            { id: "india", name: "ভারত", city: "নয়াদিল্লি", timezone: "Asia/Kolkata", code: "in" },
+            { id: "saudi_arabia", name: "সৌদি আরব", city: "রিয়াদ", timezone: "Asia/Riyadh", code: "sa" },
+            { id: "usa", name: "যুক্তরাষ্ট্র", city: "ওয়াশিংটন", timezone: "America/New_York", code: "us" },
+            { id: "uk", name: "যুক্তরাজ্য", city: "লন্ডন", timezone: "Europe/London", code: "gb" },
+            { id: "pakistan", name: "পাকিস্তান", city: "ইসলামাবাদ", timezone: "Asia/Karachi", code: "pk" },
+            { id: "uae", name: "সংযুক্ত আরব আমিরাত", city: "আবুধাবি", timezone: "Asia/Dubai", code: "ae" },
+            { id: "malaysia", name: "মালয়েশিয়া", city: "কুয়ালালামপুর", timezone: "Asia/Kuala_Lumpur", code: "my" },
+            { id: "singapore", name: "সিঙ্গাপুর", city: "সিঙ্গাপুর", timezone: "Asia/Singapore", code: "sg" },
+            { id: "japan", name: "জাপান", city: "টোকিও", timezone: "Asia/Tokyo", code: "jp" },
+            { id: "canada", name: "কানাডা", city: "অটোয়া", timezone: "America/Toronto", code: "ca" },
+            { id: "australia", name: "অস্ট্রেলিয়া", city: "ক্যানবেরা", timezone: "Australia/Sydney", code: "au" },
+            { id: "germany", name: "জার্মানি", city: "বার্লিন", timezone: "Europe/Berlin", code: "de" },
+            { id: "france", name: "ফ্রান্স", city: "প্যারিস", timezone: "Europe/Paris", code: "fr" },
+            { id: "china", name: "চীন", city: "বেইজিং", timezone: "Asia/Shanghai", code: "cn" },
+            { id: "turkey", name: "তুরস্ক", city: "আঙ্কারা", timezone: "Europe/Istanbul", code: "tr" },
+            { id: "russia", name: "রাশিয়া", city: "মস্কো", timezone: "Europe/Moscow", code: "ru" },
+            { id: "qatar", name: "কাতার", city: "দোহা", timezone: "Asia/Qatar", code: "qa" },
+            { id: "kuwait", name: "কুয়েত", city: "কুয়েত সিটি", timezone: "Asia/Kuwait", code: "kw" },
+            { id: "oman", name: "ওমান", city: "মাস্কাট", timezone: "Asia/Muscat", code: "om" },
+            { id: "bahrain", name: "বাহরাইন", city: "মানামা", timezone: "Asia/Bahrain", code: "bh" },
+            { id: "italy", name: "ইতালি", city: "রোম", timezone: "Europe/Rome", code: "it" },
+            { id: "spain", name: "স্পেন", city: "মাদ্রিদ", timezone: "Europe/Madrid", code: "es" },
+            { id: "switzerland", name: "সুইজারল্যান্ড", city: "বের্ন", timezone: "Europe/Zurich", code: "ch" },
+            { id: "south_africa", name: "দক্ষিণ আফ্রিকা", city: "প্রিটোরিয়া", timezone: "Africa/Johannesburg", code: "za" },
+            { id: "brazil", name: "ব্রাজিল", city: "ব্রাসিলিয়া", timezone: "America/Sao_Paulo", code: "br" },
+            { id: "argentina", name: "আর্জেন্টিনা", city: "বুয়েনস আইরেস", timezone: "America/Argentina/Buenos_Aires", code: "ar" },
+            { id: "south_korea", name: "দক্ষিণ কোরিয়া", city: "সিউল", timezone: "Asia/Seoul", code: "kr" },
+            { id: "afghanistan", name: "আফগানিস্তান", city: "কাবুল", timezone: "Asia/Kabul", code: "af" },
+            { id: "albania", name: "আলবেনিয়া", city: "তিরানা", timezone: "Europe/Tirane", code: "al" },
+            { id: "algeria", name: "আলজেরিয়া", city: "আলজিয়ার্স", timezone: "Africa/Algiers", code: "dz" },
+            { id: "andorra", name: "অ্যান্ডোরা", city: "আন্দোরা লা ভেলা", timezone: "Europe/Andorra", code: "ad" },
+            { id: "angola", name: "অ্যাঙ্গোলা", city: "লুয়ান্ডা", timezone: "Africa/Luanda", code: "ao" },
+            { id: "armenia", name: "আর্মেনিয়া", city: "ইয়েরেভান", timezone: "Asia/Yerevan", code: "am" },
+            { id: "austria", name: "অস্ট্রিয়া", city: "ভিয়েনা", timezone: "Europe/Vienna", code: "at" },
+            { id: "azerbaijan", name: "আজারবাইজান", city: "বাকু", timezone: "Asia/Baku", code: "az" },
+            { id: "belarus", name: "বেলারুশ", city: "মিনস্ক", timezone: "Europe/Minsk", code: "by" },
+            { id: "belgium", name: "বেলজিয়াম", city: "ব্রাসেলস", timezone: "Europe/Brussels", code: "be" },
+            { id: "bhutan", name: "ভুটান", city: "থিম্পু", timezone: "Asia/Thimphu", code: "bt" },
+            { id: "bolivia", name: "বলিভিয়া", city: "সুকরে", timezone: "America/La_Paz", code: "bo" },
+            { id: "bosnia", name: "বসনিয়া ও হার্জেগোভিনা", city: "সারাজেভো", timezone: "Europe/Sarajevo", code: "ba" },
+            { id: "botswana", name: "বতসোয়ানা", city: "গ্যাবোরন", timezone: "Africa/Gaborone", code: "bw" },
+            { id: "brunei", name: "ব্রুনাই", city: "বন্দর সেরি বেগাওয়ান", timezone: "Asia/Brunei", code: "bn" },
+            { id: "bulgaria", name: "বুলগেরিয়া", city: "সোফিয়া", timezone: "Europe/Sofia", code: "bg" },
+            { id: "cambodia", name: "কম্বোডিয়া", city: "পনম পেন", timezone: "Asia/Phnom_Penh", code: "kh" },
+            { id: "cameroon", name: "ক্যামেরুন", city: "ইয়াওন্ডে", timezone: "Africa/Douala", code: "cm" },
+            { id: "chile", name: "চিলি", city: "সান্তিয়াগো", timezone: "America/Santiago", code: "cl" },
+            { id: "colombia", name: "কলম্বিয়া", city: "বোগোতা", timezone: "America/Bogota", code: "co" },
+            { id: "costa_rica", name: "কোস্টারিকা", city: "সান হোসে", timezone: "America/Costa_Rica", code: "cr" },
+            { id: "croatia", name: "ক্রোয়েশিয়া", city: " জাগ্রেব", timezone: "Europe/Zagreb", code: "hr" },
+            { id: "cuba", name: "কিউবা", city: "হাভানা", timezone: "America/Havana", code: "cu" },
+            { id: "cyprus", name: "সাইপ্রাস", city: "নিকোসিয়া", timezone: "Asia/Nicosia", code: "cy" },
+            { id: "czechia", name: "চেক প্রজাতন্ত্র", city: "প্রাগ", timezone: "Europe/Prague", code: "cz" },
+            { id: "denmark", name: "ডেনমার্ক", city: "কোপেনহেগেন", timezone: "Europe/Copenhagen", code: "dk" },
+            { id: "ecuador", name: "ইকুয়েডর", city: "কিটো", timezone: "America/Guayaquil", code: "ec" },
+            { id: "egypt", name: "মিশর", city: "কায়রো", timezone: "Africa/Cairo", code: "eg" },
+            { id: "estonia", name: "এস্তোনিয়া", city: "তাল্লিন", timezone: "Europe/Tallinn", code: "ee" },
+            { id: "ethiopia", name: "ইথিওপিয়া", city: "আদ্দিস আবাবা", timezone: "Africa/Addis_Ababa", code: "et" },
+            { id: "fiji", name: "ফিজি", city: "সুভা", timezone: "Pacific/Fiji", code: "fj" },
+            { id: "finland", name: "ফিনল্যান্ড", city: "হেলসিঙ্কি", timezone: "Europe/Helsinki", code: "fi" },
+            { id: "georgia", name: "জর্জিয়া", city: "তিবিলিসি", timezone: "Asia/Tbilisi", code: "ge" },
+            { id: "ghana", name: "ঘানা", city: "আক্রা", timezone: "Africa/Accra", code: "gh" },
+            { id: "greece", name: "গ্রিস", city: "অ্যাথেন্স", timezone: "Europe/Athens", code: "gr" },
+            { id: "guatemala", name: "गुয়াতেমালা", city: "गुয়াতেমালা সিটি", timezone: "America/Guatemala", code: "gt" },
+            { id: "guyana", name: "গায়ানা", city: "জর্জটাউন", timezone: "America/Guyana", code: "gy" },
+            { id: "honduras", name: "হন্ডুরাস", city: "তেগুসিগালপা", timezone: "America/Tegucigalpa", code: "hn" },
+            { id: "hungary", name: "হাঙ্গেরি", city: "বুদাপেস্ট", timezone: "Europe/Budapest", code: "hu" },
+            { id: "iceland", name: "আইসল্যান্ড", city: "রেইকিয়াভিক", timezone: "Atlantic/Reykjavik", code: "is" },
+            { id: "indonesia", name: "ইন্ডোনেশিয়া", city: "জাকার্তা", timezone: "Asia/Jakarta", code: "id" },
+            { id: "iran", name: "ইরান", city: "তেহরান", timezone: "Asia/Tehran", code: "ir" },
+            { id: "iraq", name: "ইরাক", city: "বাগদাদ", timezone: "Asia/Baghdad", code: "iq" },
+            { id: "ireland", name: "আয়ারল্যান্ড", city: "ডাবলিন", timezone: "Europe/Dublin", code: "ie" },
+            { id: "israel", name: "ইসরায়েল", city: "জেরুজালেম", timezone: "Asia/Jerusalem", code: "il" },
+            { id: "jamaica", name: "জ্যামাইকা", city: "キングストン", timezone: "America/Jamaica", code: "jm" },
+            { id: "jordan", name: "জর্ডান", city: "আম্মান", timezone: "Asia/Amman", code: "jo" },
+            { id: "kazakhstan", name: "কাজাখস্তান", city: "আস্তানা", timezone: "Asia/Almaty", code: "kz" },
+            { id: "kenya", name: "কেনিয়া", city: "নয়রোবি", timezone: "Africa/Nairobi", code: "ke" },
+            { id: "kyrgyzstan", name: "কিরগিজস্তান", city: "বিশকেক", timezone: "Asia/Bishkek", code: "kg" },
+            { id: "laos", name: "লাওস", city: "ভিয়েনতিয়েন", timezone: "Asia/Vientiane", code: "la" },
+            { id: "latvia", name: "লাতভিয়া", city: "রিগা", timezone: "Europe/Riga", code: "lv" },
+            { id: "lebanon", name: "লেবানন", city: "বৈরুত", timezone: "Asia/Beirut", code: "lb" },
+            { id: "libya", name: "লিবিয়া", city: "ত্রিপোলি", timezone: "Africa/Tripoli", code: "ly" },
+            { id: "lithuania", name: "লিথুয়ানিয়া", city: "ভিলনিয়াস", timezone: "Europe/Vilnius", code: "lt" },
+            { id: "luxembourg", name: "লুক্সেমবার্গ", city: "লুক্সেমবার্গ সিটি", timezone: "Europe/Luxembourg", code: "lu" },
+            { id: "madagascar", name: "মাদাগাস্কার", city: "আন্তানানারিভো", timezone: "Indian/Antananarivo", code: "mg" },
+            { id: "maldives", name: "মালদ্বীপ", city: "মালে", timezone: "Indian/Maldives", code: "mv" },
+            { id: "mali", name: "মালি", city: "বামাকো", timezone: "Africa/Bamako", code: "ml" },
+            { id: "malta", name: "মাল্টা", city: "ভালেটা", timezone: "Europe/Malta", code: "mt" },
+            { id: "mauritius", name: "মরিশাস", city: "পোর্ট লুইস", timezone: "Indian/Mauritius", code: "mu" },
+            { id: "mexico", name: "মেক্সিকো", city: "মেক্সিকো সিটি", timezone: "America/Mexico_City", code: "mx" },
+            { id: "moldova", name: "মলদোভা", city: "চিসিনৌ", timezone: "Europe/Chisinau", code: "md" },
+            { id: "monaco", name: "মোনাকো", city: "মোনাকো সিটি", timezone: "Europe/Monaco", code: "mc" },
+            { id: "mongolia", name: "মঙ্গোলিয়া", city: "উলানবাটর", timezone: "Asia/Ulaanbaatar", code: "mn" },
+            { id: "montenegro", name: "মন্টিনিগ্রো", city: "পডগোরিৎসা", timezone: "Europe/Podgorica", code: "me" },
+            { id: "morocco", name: "মরক্কো", city: "রাবাত", timezone: "Africa/Casablanca", code: "ma" },
+            { id: "mozambique", name: "মোজাম্বিক", city: "মাপুতো", timezone: "Africa/Maputo", code: "mz" },
+            { id: "myanmar", name: "মিয়ানমার", city: "নেপিডো", timezone: "Asia/Yangon", code: "mm" },
+            { id: "namibia", name: "নামিবিয়া", city: "উইন্ডহোক", timezone: "Africa/Windhoek", code: "na" },
+            { id: "nepal", name: "নেপাল", city: "কাঠমান্ডু", timezone: "Asia/Kathmandu", code: "np" },
+            { id: "netherlands", name: "নেদারল্যান্ডস", city: "আমস্টারডাম", timezone: "Europe/Amsterdam", code: "nl" },
+            { id: "new_zealand", name: "নিউজিল্যান্ড", city: "ওয়েলিংটন", timezone: "Pacific/Auckland", code: "nz" },
+            { id: "nicaragua", name: "নিকারাগুয়া", city: "মানাগুয়া", timezone: "America/Managua", code: "ni" },
+            { id: "niger", name: "নাইজার", city: "নিয়ামেই", timezone: "Africa/Niamey", code: "ne" },
+            { id: "nigeria", name: "নাইজেরিয়া", city: "আবুজা", timezone: "Africa/Lagos", code: "ng" },
+            { id: "north_macedonia", name: "উত্তর মেসিডোনিয়া", city: "স্কোপিয়ে", timezone: "Europe/Skopje", code: "mk" },
+            { id: "norway", name: "নরওয়ে", city: "অসলো", timezone: "Europe/Oslo", code: "no" },
+            { id: "panama", name: "পানামা", city: "পানামা সিটি", timezone: "America/Panama", code: "pa" },
+            { id: "papua_new_guinea", name: "পাপুয়া নিউগিনি", city: "পোর্ট মোর্সবি", timezone: "Pacific/Port_Moresby", code: "pg" },
+            { id: "paraguay", name: "প্যারাগুয়ে", city: "আসুনসিওন", timezone: "America/Asuncion", code: "py" },
+            { id: "peru", name: "পেরু", city: "লিমা", timezone: "America/Lima", code: "pe" },
+            { id: "philippines", name: "ফিলিপাইন", city: "ম্যানিলা", timezone: "Asia/Manila", code: "ph" },
+            { id: "poland", name: "পোল্যান্ড", city: "ওয়ারশ", timezone: "Europe/Warsaw", code: "pl" },
+            { id: "portugal", name: "পর্তুগাল", city: "লিসবন", timezone: "Europe/Lisbon", code: "pt" },
+            { id: "romania", name: "রোমানিয়া", city: "বুখারেস্ট", timezone: "Europe/Bucharest", code: "ro" },
+            { id: "senegal", name: "সেনেগাল", city: "ডাকার", timezone: "Africa/Dakar", code: "sn" },
+            { id: "serbia", name: "সার্বিয়া", city: "বেলগ্রেড", timezone: "Europe/Belgrade", code: "rs" },
+            { id: "slovakia", name: "স্লোভাকিয়া", city: "ব্রাতিসলাভা", timezone: "Europe/Bratislava", code: "sk" },
+            { id: "slovenia", name: "স্লোভেনিয়া", city: "লুব্লিয়ানা", timezone: "Europe/Ljubljana", code: "si" },
+            { id: "somalia", name: "সোমালিয়া", city: "মোগাদিসু", timezone: "Africa/Mogadishu", code: "so" },
+            { id: "sri_lanka", name: "শ্রীলঙ্কা", city: "শ্রী জয়বর্ধনপুরা কোট্টে", timezone: "Asia/Colombo", code: "lk" },
+            { id: "sudan", name: "সুদান", city: "খার্তুম", timezone: "Africa/Khartoum", code: "sd" },
+            { id: "suriname", name: "সুরিনাম", city: "পারামারিবো", timezone: "America/Paramaribo", code: "sr" },
+            { id: "sweden", name: "সুইডেন", city: "স্টকহোম", timezone: "Europe/Stockholm", code: "se" },
+            { id: "syria", name: "সিরিয়া", city: "দামেস্ক", timezone: "Asia/Damascus", code: "sy" },
+            { id: "taiwan", name: "তাইওয়ান", city: "তাইপেই", timezone: "Asia/Taipei", code: "tw" },
+            { id: "tajikistan", name: "তালিকিস্তান", city: "দুশানবে", timezone: "Asia/Dushanbe", code: "tj" },
+            { id: "tanzania", name: "তানজানিয়া", city: "দার এস সালাম", timezone: "Africa/Dar_es_Salaam", code: "tz" },
+            { id: "thailand", name: "থাইল্যান্ড", city: "ব্যাংকক", timezone: "Asia/Bangkok", code: "th" },
+            { id: "tunisia", name: "তিউনিসিয়া", city: "তিউনিস", timezone: "Africa/Tunis", code: "tn" },
+            { id: "uganda", name: "উগান্ডা", city: "কাম্পালা", timezone: "Africa/Kampala", code: "ug" },
+            { id: "ukraine", name: "ইউক্রেন", city: "কিয়েভ", timezone: "Europe/Kyiv", code: "ua" },
+            { id: "uruguay", name: "উরুগুয়ে", city: "মন্টেভিডিও", timezone: "America/Montevideo", code: "uy" },
+            { id: "uzbekistan", name: "উজবেকিস্তান", city: "তাসখন্দ", timezone: "Asia/Tashkent", code: "uz" },
+            { id: "venezuela", name: "ভেনেজুয়েলা", city: "কারাকাস", timezone: "America/Caracas", code: "ve" },
+            { id: "vietnam", name: "ভিয়েতনমি", city: "হ্যানয়", timezone: "Asia/Ho_Chi_Minh", code: "vn" },
+            { id: "yemen", name: "ইয়েমেন", city: "সানা", timezone: "Asia/Aden", code: "ye" },
+            { id: "zambia", name: "জাম্বিয়া", city: "লুসাকা", timezone: "Africa/Lusaka", code: "zm" },
+            { id: "zimbabwe", name: "জিম্বাবুয়ে", city: "হারারে", timezone: "Africa/Harare", code: "zw" }
+        ];
+
+        // ইংরেজি সংখ্যাকে বাংলা সংখ্যায় কনভার্ট করার ফাংশন
+        const convertToBanglaNumbers = (numStr) => {
+            const banglaDigits = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
+            return numStr.toString().replace(/[0-9]/g, w => banglaDigits[w] || w);
+        };
+
+        // গ্লোবাল স্টেট এবং ইনিশিয়াল সেটিংস
+        let selectedCountry = countryDatabase[0]; // ডিফল্ট বাংলাদেশ
+        let timeFormat12h = true;
+        let showSeconds = true;
+
+        // নো-পারমিশন টাইমজোন বেসড লোকেশন ডিটেকশন অ্যালগরিদম
+        function autodetectLocation() {
+            try {
+                // ব্রাউজারের সিস্টেম জোন ডিটেকশন
+                const systemTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const debugTzEl = document.getElementById('debug-tz');
+                if (debugTzEl) debugTzEl.textContent = systemTz;
+                
+                // মিলানো হচ্ছে আমাদের গ্লোবাল ক্যাপিটাল ডাটাবেসের সাথে
+                const matchedCountry = countryDatabase.find(c => c.timezone.toLowerCase() === systemTz.toLowerCase());
+                
+                if (matchedCountry) {
+                    selectedCountry = matchedCountry;
+                    const debugCountryEl = document.getElementById('debug-country');
+                    if (debugCountryEl) debugCountryEl.textContent = `${matchedCountry.name} (${matchedCountry.city})`;
+                } else {
+                    // আনুমানিক জোনে স্থানান্তর
+                    const genericMatch = countryDatabase.find(c => {
+                        const parts = c.timezone.split('/');
+                        const sysParts = systemTz.split('/');
+                        return parts[parts.length - 1] === sysParts[sysParts.length - 1];
+                    });
+                    if (genericMatch) {
+                        selectedCountry = genericMatch;
+                    }
+                    const debugCountryEl = document.getElementById('debug-country');
+                    if (debugCountryEl) debugCountryEl.textContent = "অটো-ডিটেক্টেড আসন্ন জোন";
+                }
+
+                // আইপি ভিত্তিক লোকাল দেশ ব্যাকআপ সিঙ্ক
+                fetch('https://ipapi.co/json/')
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data && data.country_code) {
+                            const ipMatched = countryDatabase.find(c => c.code.toLowerCase() === data.country_code.toLowerCase());
+                            if (ipMatched) {
+                                selectedCountry = ipMatched;
+                                const debugCountryEl = document.getElementById('debug-country');
+                                if (debugCountryEl) debugCountryEl.textContent = `${ipMatched.name} (${ipMatched.city} - আইপি)`;
+                                updateUI();
+                            }
+                        }
+                    })
+                    .catch(() => { /* সাইলেন্ট ফেইল */ });
+
+            } catch (e) {
+                console.log("টাইমজোন রিকগনিশন সিঙ্ক হয়নি:", e);
+            }
+        }
+
+        // লাইভ ক্লক ইঞ্জিন (লাল-সবুজ ফন্ট রি-কনফিগারেশন সহ)
+        function startLiveClock() {
+            setInterval(() => {
+                // যদি আমরা আইফ্রেম (উইজেট) মোডে থাকি তবে এটি চালানো বন্ধ করব যেন পারফরম্যান্স বজায় থাকে
+                if (window.location.hash.includes('embed')) return;
+
+                const now = new Date();
+                
+                // মূল ঘড়ি টাইম রেন্ডার লজিক
+                const options = {
+                    timeZone: selectedCountry.timezone,
+                    hour12: timeFormat12h,
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: showSeconds ? '2-digit' : undefined
+                };
+
+                try {
+                    const timeFormatter = new Intl.DateTimeFormat('en-US', options);
+                    let formattedTime = timeFormatter.format(now);
+                    
+                    let period = '';
+                    if (timeFormat12h) {
+                        const match = formattedTime.match(/(AM|PM)/i);
+                        if (match) {
+                            period = match[0] === 'AM' ? 'পূর্বাহ্ন (AM)' : 'অপরাহ্ন (PM)';
+                            formattedTime = formattedTime.replace(/(AM|PM)/i, '').trim();
+                        }
+                    }
+
+                    // লাল-সবুজ ফন্টে বাংলা রেন্ডার করা
+                    const clockEl = document.getElementById('main-clock-display');
+                    if (clockEl) clockEl.textContent = convertToBanglaNumbers(formattedTime);
+                    
+                    const periodEl = document.getElementById('main-period-display');
+                    if (periodEl) {
+                        periodEl.textContent = period;
+                        periodEl.style.display = timeFormat12h ? 'block' : 'none';
+                    }
+
+                    // তারিখ প্রসেসিং অঞ্চল
+                    const dateOptions = {
+                        timeZone: selectedCountry.timezone,
+                        weekday: 'long',
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    };
+                    const dateFormatter = new Intl.DateTimeFormat('bn-BD', dateOptions);
+                    const parts = dateFormatter.formatToParts(now);
+                    
+                    let dayName = '';
+                    let dateNum = '';
+                    let monthYear = '';
+
+                    parts.forEach(part => {
+                        if (part.type === 'weekday') dayName = part.value;
+                        else if (part.type === 'day') dateNum = part.value;
+                        else if (part.type === 'month') monthYear += part.value + ' ';
+                        else if (part.type === 'year') monthYear += part.value;
+                    });
+
+                    const dayNameEl = document.getElementById('card-day-name');
+                    const dateNumEl = document.getElementById('card-date-num');
+                    const monthYearEl = document.getElementById('card-month-year');
+
+                    if (dayNameEl) dayNameEl.textContent = dayName;
+                    if (dateNumEl) dateNumEl.textContent = convertToBanglaNumbers(dateNum);
+                    if (monthYearEl) monthYearEl.textContent = monthYear;
+
+                } catch (e) {
+                    const clockEl = document.getElementById('main-clock-display');
+                    if (clockEl) clockEl.textContent = now.toLocaleTimeString();
+                }
+
+                // কুইক ওয়ার্ল্ড ক্লক ভিউ আপডেট করা
+                updateQuickClocks();
+
+            }, 1000);
+        }
+
+        // কুইক গ্লোবাল ভিউ জেনারেশন (৬ টি মহাদেশীয় অঞ্চল বা গুরুত্বপূর্ণ অঞ্চল দিয়ে)
+        function updateQuickClocks() {
+            const container = document.getElementById('quick-world-clocks-container');
+            if (!container) return;
+
+            if (container.children.length === 0) {
+                // নির্বাচিত দেশ বাদে শীর্ষ ৬টি গ্লোবাল অঞ্চল নির্বাচন
+                const subset = countryDatabase.filter(c => c.id !== selectedCountry.id).slice(0, 6);
+                subset.forEach(c => {
+                    const item = document.createElement('div');
+                    item.className = "flex items-center justify-between p-3.5 rounded-2xl bg-neutral-900/40 border border-neutral-800 hover:border-brand/30 cursor-pointer transition active:scale-95";
+                    item.onclick = () => selectCountryById(c.id);
+                    item.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <img src="https://flagcdn.com/w40/${c.code}.png" class="w-6.5 h-4.5 object-cover rounded shadow-sm" alt="${c.name}">
+                            <div>
+                                <h4 class="text-xs font-bold text-white">${c.name}</h4>
+                                <p class="text-[10px] text-neutral-500">${c.city} (রাজধানী)</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div id="quick-time-${c.id}" class="text-base font-bold text-brand tracking-widest">০০:০০</div>
+                        </div>
+                    `;
+                    container.appendChild(item);
+                });
+            }
+
+            // প্রতিটি ওয়ার্ল্ড রিজনের টাইম লাল-সবুজ ফন্ট ও বাংলা ফরম্যাটে লাইভ রেন্ডার
+            const now = new Date();
+            countryDatabase.slice(0, 15).forEach(c => {
+                const el = document.getElementById(`quick-time-${c.id}`);
+                if (el) {
+                    try {
+                        const timeStr = now.toLocaleTimeString('en-US', {
+                            timeZone: c.timezone,
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: timeFormat12h
+                        });
+                        el.textContent = convertToBanglaNumbers(timeStr);
+                    } catch (e) {}
+                }
+            });
+        }
+
+        // ইউজার ইন্টারফেস এবং স্টেট রিসেট সিঙ্ক
+        function updateUI() {
+            const mainCountryNameEl = document.getElementById('main-country-name');
+            if (mainCountryNameEl) mainCountryNameEl.textContent = `${selectedCountry.name} (${selectedCountry.city})`;
+            
+            const mainTzLabelEl = document.getElementById('main-timezone-label');
+            if (mainTzLabelEl) mainTzLabelEl.textContent = `${selectedCountry.timezone} • রাজধানী সিঙ্কড`;
+            
+            const flagImg = document.getElementById('main-country-flag');
+            if (flagImg) {
+                flagImg.src = `https://flagcdn.com/w40/${selectedCountry.code}.png`;
+                flagImg.classList.remove('hidden');
+            }
+
+            // কুইক লিস্ট রি-ফ্রেশ করার জন্য খালি করা হলো
+            const qwcContainer = document.getElementById('quick-world-clocks-container');
+            if (qwcContainer) qwcContainer.innerHTML = '';
+
+            // অ্যাড্রেস বার রাউটিং সিঙ্ক (আইফ্রেম মোডে থাকলে করব না)
+            if (!window.location.hash.includes('embed')) {
+                window.location.hash = selectedCountry.id;
+            }
+        }
+
+        // আইডি ভিত্তিক দেশ নির্বাচন
+        function selectCountryById(id) {
+            const country = countryDatabase.find(c => c.id === id);
+            if (country) {
+                selectedCountry = country;
+                updateUI();
+                navigateTo('home');
+            }
+        }
+
+        // রাউটিং গেটওয়ে কন্ট্রোলার (আইফ্রেম সনাক্তকরণের জন্য সবচেয়ে গুরুত্বপূর্ণ ফাংশন)
+        function handleRouting() {
+            const hash = window.location.hash.substring(1);
+            
+            // অত্যন্ত গুরুত্বপূর্ণ: যদি ইউআরএল এ embed কুয়েরি ক্লাস থাকে তবে মেইন পেইজ বন্ধ করে উইজেট লোড হবে
+            if (hash.startsWith('embed')) {
+                renderEmbedWidget();
+                return;
+            }
+
+            // যদি আইফ্রেম ভিউ না থাকে, তবে নিশ্চিত করুন যে মেইন অ্যাপটি দৃশ্যমান এবং উইজেট হিডেন রয়েছে
+            document.getElementById('full-app-container').classList.remove('hidden');
+            document.getElementById('embed-widget-container').classList.add('hidden');
+
+            if (hash.startsWith('search?q=')) {
+                const query = decodeURIComponent(hash.split('search?q=')[1]);
+                navigateTo('search');
+                document.getElementById('search-input').value = query;
+                handleSearch(query);
+                return;
+            }
+
+            const match = countryDatabase.find(c => c.id === hash);
+            if (match) {
+                selectedCountry = match;
+                updateUI();
+                navigateTo('home');
+            } else {
+                navigateTo('home');
+            }
+        }
+
+        // নেভিগেশন প্যানেল সুইচিং
+        function navigateTo(screenId) {
+            document.querySelectorAll('.screen-view').forEach(screen => {
+                screen.classList.add('hidden');
+            });
+            const activeScreen = document.getElementById(`screen-${screenId}`);
+            if (activeScreen) {
+                activeScreen.classList.remove('hidden');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (screenId === 'search') {
+                const queryVal = document.getElementById('search-input').value;
+                handleSearch(queryVal);
+            }
+            if (screenId === 'iframe-builder') {
+                generateIframeCode();
+            }
+        }
+
+        // আল্ট্রা-ফাস্ট সার্চ ইন্টেলিজেন্স (বাংলা নাম, ইংলিশ আইডি, রাজধানী ক্যাটাগরি সার্চযোগ্য)
+        function handleSearch(query) {
+            const resultsContainer = document.getElementById('search-results');
+            if (!resultsContainer) return;
+            resultsContainer.innerHTML = '';
+
+            const sanitizedQuery = query.toLowerCase().trim();
+            
+            let filtered = countryDatabase;
+            if (sanitizedQuery) {
+                filtered = countryDatabase.filter(c => 
+                    c.name.toLowerCase().includes(sanitizedQuery) ||
+                    c.city.toLowerCase().includes(sanitizedQuery) ||
+                    c.id.toLowerCase().includes(sanitizedQuery)
+                );
+            }
+
+            if (filtered.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="p-8 text-center text-neutral-500 text-sm">
+                        উক্ত নামের কোনো দেশ বা রাজধানী ডাটাবেসে নেই। দয়া করে সঠিক বানান লিখুন।
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(c => {
+                const row = document.createElement('div');
+                row.className = "p-4 rounded-xl bg-neutral-900/60 border border-neutral-800 hover:border-brand/40 flex items-center justify-between cursor-pointer transition active:scale-[0.98]";
+                row.onclick = () => {
+                    selectCountryById(c.id);
+                };
+                row.innerHTML = `
+                    <div class="flex items-center space-x-3.5">
+                        <img src="https://flagcdn.com/w40/${c.code}.png" class="w-7 h-5 object-cover rounded-sm shadow-sm" alt="${c.name}">
+                        <div>
+                            <h4 class="text-sm font-bold text-white">${c.name}</h4>
+                            <p class="text-xs text-neutral-400">রাজধানী: ${c.city} • জোন: ${c.timezone}</p>
+                        </div>
+                    </div>
+                    <svg class="w-5 h-5 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                `;
+                resultsContainer.appendChild(row);
+            });
+
+            if (sanitizedQuery) {
+                history.replaceState(null, null, `#search?q=${encodeURIComponent(query)}`);
+            }
+        }
+
+        // সেটিংস ফাংশনালিটি হ্যান্ডলার
+        function toggleFormatSetting(isChecked) {
+            timeFormat12h = isChecked;
+        }
+
+        function toggleSecondsSetting(isChecked) {
+            showSeconds = isChecked;
+        }
+
+        // ==================== আইফ্রেম মেকার লজিক ====================
+        
+        function updateIframeColorText(color) {
+            document.getElementById('iframe-color-text').value = color.toUpperCase();
+            generateIframeCode();
+        }
+
+        function updateIframeColorPicker(color) {
+            if (/^#[0-9A-F]{6}$/i.test(color)) {
+                document.getElementById('iframe-color-picker').value = color;
+                generateIframeCode();
+            }
+        }
+
+        // আইফ্রেম এম্বেড কোড স্ট্রাকচার জেনারেটর
+        function generateIframeCode() {
+            const textColor = encodeURIComponent(document.getElementById('iframe-color-text').value);
+            const font = document.getElementById('iframe-font-select').value;
+            const showTime = document.getElementById('iframe-show-time').checked;
+            const showDate = document.getElementById('iframe-show-date').checked;
+            const transparent = document.getElementById('iframe-transparent-bg').checked;
+            const timezone = selectedCountry.timezone;
+
+            const baseUrl = window.location.href.split('#')[0];
+            
+            // আইফ্রেম সোর্সে আমরা সরাসরি বিশেষ হ্যাশ কোয়েরি সেট করে দিচ্ছি
+            const embedUrl = `${baseUrl}#embed?tz=${encodeURIComponent(timezone)}&color=${textColor}&font=${font}&st=${showTime}&sd=${showDate}&trans=${transparent}`;
+
+            const iframeCode = `<iframe src="${embedUrl}" width="100%" height="95" style="border:none; overflow:hidden;" allowtransparency="true"></iframe>`;
+            
+            const embedCodeEl = document.getElementById('iframe-embed-code');
+            if (embedCodeEl) embedCodeEl.value = iframeCode;
+            
+            const previewWin = document.getElementById('iframe-preview-window');
+            if (previewWin) previewWin.src = embedUrl;
+        }
+
+        // কপি লজিক
+        function copyEmbedCode() {
+            const textarea = document.getElementById('iframe-embed-code');
+            if (!textarea) return;
+            textarea.select();
+            document.execCommand('copy');
+            
+            const btnText = document.getElementById('copy-btn-text');
+            if (btnText) {
+                btnText.textContent = "কপি হয়েছে!";
+                setTimeout(() => {
+                    btnText.textContent = "কপি করুন";
+                }, 2000);
+            }
+        }
+
+        // আইফ্রেম ভিউতে এক্সক্লুসিভ রেন্ডারিং (সবকিছু লাল-সবুজ ফন্ট ভিত্তিক এবং সম্পূর্ণ ক্লিন ইন্টারফেস)
+        function renderEmbedWidget() {
+            // ১. মেইন অ্যাপ্লিকেশন কন্টেইনার সম্পূর্ণ উধাও বা ডিলিট করে দেওয়া হলো
+            const appContainer = document.getElementById('full-app-container');
+            if (appContainer) appContainer.remove(); // এটি জেনুইনলি ডম থেকে ডিলিট করে দেয়
+
+            // ২. শুধুমাত্র ডেডিকেটেড উইজেট প্যানেল দৃশ্যমান করা হলো
+            const widget = document.getElementById('embed-widget-container');
+            if (widget) widget.classList.remove('hidden');
+
+            const hash = window.location.hash;
+            const paramsStr = hash.substring(hash.indexOf('?') + 1);
+            const params = new URLSearchParams(paramsStr);
+
+            const tz = params.get('tz') || 'Asia/Dhaka';
+            const color = params.get('color') || '#FFD629';
+            const font = params.get('font') || 'LalSabuj';
+            const showTime = params.get('st') !== 'false';
+            const showDate = params.get('sd') !== 'false';
+            const transparent = params.get('trans') !== 'false';
+
+            // ব্যাকগ্রাউন্ড সেটিংস নির্ধারণ
+            if (transparent) {
+                document.body.style.backgroundColor = 'transparent';
+                if (widget) widget.style.backgroundColor = 'transparent';
+            } else {
+                document.body.style.backgroundColor = '#050505';
+                if (widget) widget.style.backgroundColor = '#050505';
+            }
+
+            // ফন্ট ফ্যামিলি অ্যাপ্লাই (লাল সবুজ ফন্ট ফোর্স করা হলো)
+            if (font === 'LalSabuj') {
+                document.body.style.setProperty('font-family', 'LalSabuj, sans-serif', 'important');
+                if (widget) widget.style.setProperty('font-family', 'LalSabuj, sans-serif', 'important');
+            } else {
+                document.body.style.setProperty('font-family', 'sans-serif', 'important');
+                if (widget) widget.style.setProperty('font-family', 'sans-serif', 'important');
+            }
+
+            const clockEl = document.getElementById('embed-clock-display');
+            const dateEl = document.getElementById('embed-date-display');
+            
+            if (clockEl) {
+                clockEl.style.color = color;
+                clockEl.style.display = showTime ? 'block' : 'none';
+            }
+            if (dateEl) {
+                dateEl.style.color = color;
+                dateEl.style.display = showDate ? 'block' : 'none';
+            }
+
+            // শুধুমাত্র উইজেট লাইভ কাউন্টার লুপ রান হবে
+            setInterval(() => {
+                const now = new Date();
+                
+                if (showTime && clockEl) {
+                    try {
+                        const timeStr = now.toLocaleTimeString('en-US', {
+                            timeZone: tz,
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                            hour12: true
+                        });
+                        clockEl.textContent = convertToBanglaNumbers(timeStr);
+                        clockEl.style.fontSize = showDate ? '2.1rem' : '3.1rem';
+                    } catch (e) {
+                        clockEl.textContent = now.toLocaleTimeString();
+                    }
+                }
+
+                if (showDate && dateEl) {
+                    try {
+                        const dateStr = now.toLocaleDateString('bn-BD', {
+                            timeZone: tz,
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                        });
+                        dateEl.textContent = convertToBanglaNumbers(dateStr);
+                    } catch (e) {
+                        dateEl.textContent = now.toLocaleDateString();
+                    }
+                }
+            }, 1000);
+        }
+
+        // প্রারম্ভিক সাইট ইনিশিয়েলাইজেশন
+        window.addEventListener('load', () => {
+            // যদি আমরা সরাসরি এম্বেড ভিউতে থাকি, সরাসরি রেন্ডার শুরু করুন
+            if (window.location.hash.startsWith('#embed')) {
+                renderEmbedWidget();
+                return;
+            }
+
+            autodetectLocation();
+            updateUI();
+            startLiveClock();
+            handleRouting();
+        });
+
+        // হ্যাশ রাউটিং ইভেন্ট সিঙ্ক
+        window.addEventListener('hashchange', handleRouting);
+    </script>
+</body>
+</html>
