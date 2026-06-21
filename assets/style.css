@@ -82,14 +82,15 @@
             background: #000;
         }
         
-        /* Prevent clicks directly on YouTube to bypass custom controls on desktop/mobile */
-        .video-wrapper iframe {
+        /* STRICT YOUTUBE INTERACTION LOCK (Prevents native clicks, suggestion menus, sharing bypasses) */
+        #yt-player-placeholder, #yt-player-placeholder iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             border: 0;
+            pointer-events: none !important; /* Locks direct interactions on YouTube native frame completely */
         }
 
         /* Custom controls overlay positioning */
@@ -138,4 +139,9 @@
         }
         .seekbar-container:hover .seekbar-handle {
             transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        /* Clean White Filter on Icons */
+        .filter-white {
+            filter: brightness(0) invert(1);
         }
