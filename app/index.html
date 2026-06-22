@@ -1,0 +1,538 @@
+
+<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download App | ক্ষেত্রফল</title>
+    
+    <!-- SEO Optimization Meta Tags -->
+    <meta name="description" content="Khetrofol offers it's official mobile app. Download and install from the verified website.">
+    <meta name="keywords" content="Khetrofol, Khetrofol App, Khetrofol mobile app, App Khetrofol, Khetrofol video, Download Khetrofol, Khetrofol app download, Khetrofol official, Khetrofol Bangla, Bangla Khetrofol, Khetrofol app official, ক্ষেত্রফল, ক্ষেত্রফল অ্যাপ, ক্ষেত্রফল অ্যাপ ডাউনলোড, ক্ষেত্রফল মোবাইল অ্যাপ, ক্ষেত্রফল অ্যাপ অফিসিয়াল, ক্ষেত্রফল ভিডিও, ক্ষেত্রফল বাংলা, ক্ষেত্রফল ডাউনলোড, অ্যাপ ক্ষেত্রফল">
+    <meta name="author" content="Khetrofol">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="https://khetrofol.github.io/app">
+
+    <!-- Facebook Open Graph Meta Tags -->
+    <meta property="og:locale" content="bn_BD">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Download App | ক্ষেত্রফল">
+    <meta property="og:description" content="Khetrofol offers it's official mobile app. Download and install from the verified website.">
+    <meta property="og:url" content="https://khetrofol.github.io/app">
+    <meta property="og:site_name" content="ক্ষেত্রফল">
+    <meta property="og:image" content="https://khetrofol.github.io/assets/favicon.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="Khetrofol App Logo">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Download App | ক্ষেত্রফল">
+    <meta name="twitter:description" content="Khetrofol offers it's official mobile app. Download and install from the verified website.">
+    <meta name="twitter:image" content="https://khetrofol.github.io/assets/favicon.png">
+
+    <!-- Theme & App Icons -->
+    <meta name="theme-color" content="#0D0D0D">
+    <meta name="msapplication-TileColor" content="#0D0D0D">
+    
+    <!-- Favicon Configuration -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://khetrofol.github.io/assets/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://khetrofol.github.io/assets/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://khetrofol.github.io/assets/favicon.png">
+    <link rel="shortcut icon" href="https://khetrofol.github.io/assets/favicon.png" type="image/x-icon">
+
+    <!-- Structured Data (JSON-LD) for Search Engines -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Download App | ক্ষেত্রফল",
+      "alternateName": [
+        "Khetrofol App",
+        "ক্ষেত্রফল অ্যাপ"
+      ],
+      "description": "Khetrofol offers it's official mobile app. Download and install from the verified website.",
+      "url": "https://khetrofol.github.io/app",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires HTML5, Javascript, CSS3",
+      "genre": "Mobile App",
+      "author": {
+        "@type": "Organization",
+        "name": "Khetrofol",
+        "url": "https://khetrofol.github.io/",
+        "logo": "https://khetrofol.github.io/assets/favicon.png",
+        "sameAs": [
+          "https://m.facebook.com/KhetrofolOfficial",
+          "https://m.youtube.com/@Khetrofol"
+        ]
+      }
+    }
+    </script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* কাস্টম ফন্ট ইন্টিগ্রেশন */
+        @font-face {
+            font-family: 'LalSabuj';
+            src: url('https://khetrofol.github.io/assets/Lal_Sabuj_Normal_31-08-2012.ttf') format('truetype');
+            font-display: swap;
+        }
+
+        body {
+            font-family: 'LalSabuj', system-ui, -apple-system, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        /* ব্র্যান্ডের কাস্টম থিম কালার ইউটিলিটিস */
+        .bg-brand {
+            background-color: #FFD629;
+        }
+        .text-brand {
+            color: #d1ab00;
+        }
+        .border-brand {
+            border-color: #FFD629;
+        }
+        .focus-brand:focus {
+            --tw-ring-color: #FFD629;
+        }
+
+        /* ৩D রোটেটিং হেডার ইফেক্ট */
+        .heading-3d-wrapper {
+            perspective: 800px;
+        }
+        .heading-3d {
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+        .heading-3d-wrapper:hover .heading-3d {
+            transform: rotateX(15deg) rotateY(-10deg) translateZ(15px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* স্ক্রিনশট গ্যালারি স্ক্রল বার হাইড করা */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* প্রিমিয়াম শিমার বাটন অ্যানিমেশন */
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        .shimmer-btn::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            transform: translateX(-100%);
+            background-image: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.4) 20%,
+                rgba(255, 255, 255, 0.6) 60%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            animation: shimmer 2.5s infinite;
+        }
+    </style>
+</head>
+<body class="selection:bg-yellow-200">
+
+    <!-- গ্লাসমরফিক নেভিগেশন বার -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/75 backdrop-blur-md border-b border-gray-200/50 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <!-- লোগো এবং টাইটেল -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full border-2 border-[#FFD629] overflow-hidden p-0.5 bg-white shadow-sm flex-shrink-0">
+                    <img src="https://khetrofol.github.io/assets/favicon.png" alt="Khetrofol Logo" class="w-full h-full object-cover rounded-full">
+                </div>
+                <span class="text-lg font-bold tracking-tight text-gray-800 sm:text-xl">Download Khetrofol App</span>
+            </div>
+            
+            <!-- কুইক ডাউনলোড বাটন -->
+            <a href="https://github.com/Khetrofol/khetrofol.github.io/raw/refs/heads/main/app/Khetrofol_Official_Release_v1.0.1.apk" 
+               class="bg-brand text-gray-900 font-bold px-4 py-2 rounded-full text-sm hover:bg-yellow-400 transition-all duration-200 shadow-sm flex items-center space-x-1.5 border border-yellow-400/50">
+                <!-- ডাউনলোড আইকন -->
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                </svg>
+                <span class="hidden sm:inline">ডাউনলোড APK</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- মূল কনটেন্ট এরিয়া -->
+    <main class="pt-24 pb-12 px-4 max-w-6xl mx-auto">
+        
+        <!-- হিরো সেকশন (Play Store-এর মতো মডার্ন ডিজাইন) -->
+        <section class="bg-white rounded-3xl p-6 sm:p-8 md:p-12 border border-gray-100 shadow-sm mb-8 relative overflow-hidden">
+            <!-- ব্যাকগ্রাউন্ড ডিজাইন এলিমেন্ট -->
+            <div class="absolute -right-16 -top-16 w-64 h-64 bg-[#FFD629]/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-16 -bottom-16 w-64 h-64 bg-[#FFD629]/5 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
+                <!-- অ্যাপ আইকন বড় আকারের -->
+                <div class="w-32 h-32 sm:w-40 sm:h-40 bg-white rounded-[2.5rem] border border-gray-100 p-3 shadow-md flex-shrink-0 relative">
+                    <img src="https://khetrofol.github.io/assets/favicon.png" alt="Khetrofol App Icon" class="w-full h-full object-cover rounded-[2rem]">
+                    <div class="absolute -bottom-2 -right-2 bg-green-500 text-white font-bold text-xs px-2.5 py-1 rounded-full flex items-center space-x-1 shadow-sm border border-white">
+                        <span class="w-2 h-2 bg-white rounded-full animate-ping"></span>
+                        <span>অফিসিয়াল</span>
+                    </div>
+                </div>
+
+                <!-- অ্যাপ বিবরণ -->
+                <div class="flex-1 text-center md:text-left">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 leading-tight">Khetrofol App</h1><p>by</p>
+                    <p class="text-sm font-semibold text-gray-400 mt-1 uppercase tracking-wider">Khetrofol Team</p>
+                    
+                    <!-- প্লে-স্টোর স্টাইলের ব্যাজ এবং ডিটেইলস -->
+                    <div class="flex flex-wrap justify-center md:justify-start items-center gap-4 mt-4 text-xs sm:text-sm text-gray-500 font-medium">
+                        <div class="flex items-center space-x-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                            <!-- স্টার রেটিং আইকন -->
+                            <svg class="w-4 h-4 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                            <span class="font-bold text-gray-800">৪.৯</span>
+                            <span>(গড় রিভিউ)</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                            <!-- স্টোরেজ সাইজ আইকন -->
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/>
+                            </svg>
+                            <span>৪.৪৯ MB</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                            <!-- রিকোয়ারমেন্ট আইকন -->
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"/>
+                            </svg>
+                            <span>Android 5.0+</span>
+                        </div>
+                    </div>
+
+                    <!-- প্রধান বড় ডাউনলোড বাটন -->
+                    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+                        <a href="https://github.com/Khetrofol/khetrofol.github.io/raw/refs/heads/main/app/Khetrofol_Official_Release_v1.0.1.apk" 
+                           class="shimmer-btn relative overflow-hidden w-full sm:w-auto bg-brand hover:bg-yellow-400 text-gray-900 font-extrabold text-lg px-8 py-4 rounded-2xl transition-all duration-300 transform active:scale-95 shadow-[0_4px_20px_rgba(255,214,41,0.4)] flex items-center justify-center space-x-3 border border-yellow-300">
+                            <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                            </svg>
+                            <span>সরাসরি APK ডাউনলোড করুন</span>
+                        </a>
+                        <p class="text-xs text-gray-400 font-medium max-w-xs text-center sm:text-left">
+                            নিরাপদ এবং নির্ভরযোগ্য অফিশিয়াল লিংক। ডাউনলোডে কোনো বাড়তি ঝামেলা নেই।
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- স্ক্রিনশট গ্যালারি (হরিজন্টাল স্ক্রলিং এবং মোবাইল টাচ ফ্রেন্ডলি) -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-4 px-2">
+                <div class="flex items-center space-x-2">
+                    <span class="w-2.5 h-6 bg-brand rounded-full"></span>
+                    <h2 class="text-xl font-extrabold text-gray-900">অ্যাপ স্ক্রিনশটস</h2>
+                </div>
+                <!-- নেভিগেশন হিন্ট -->
+                <div class="flex space-x-2">
+                    <button onclick="scrollGallery(-300)" class="p-2 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-95 transition-all">
+                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+                        </svg>
+                    </button>
+                    <button onclick="scrollGallery(300)" class="p-2 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 active:scale-95 transition-all">
+                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- স্ক্রলযোগ্য গ্যালারি কন্টেইনার -->
+            <div id="screenshot-gallery" class="flex overflow-x-auto gap-4 pb-4 px-2 scroll-smooth no-scrollbar snap-x snap-mandatory">
+                <!-- স্ক্রিনশট ১ -->
+                <div class="flex-shrink-0 w-[280px] sm:w-[320px] snap-start bg-white p-3 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="rounded-2xl overflow-hidden bg-gray-100 aspect-[9/16] relative">
+                        <img src="https://i.ibb.co.com/MxNf1884/screenshot1-1.jpg" alt="Khetrofol App Screenshot 1" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- স্ক্রিনশট ২ -->
+                <div class="flex-shrink-0 w-[280px] sm:w-[320px] snap-start bg-white p-3 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="rounded-2xl overflow-hidden bg-gray-100 aspect-[9/16] relative">
+                        <img src="https://i.ibb.co.com/R4dGvNdM/screenshot2-1.jpg" alt="Khetrofol App Screenshot 2" class="w-full h-full object-cover">
+                    </div>
+                </div>
+
+                <!-- স্ক্রিনশট ৩ -->
+                <div class="flex-shrink-0 w-[280px] sm:w-[320px] snap-start bg-white p-3 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="rounded-2xl overflow-hidden bg-gray-100 aspect-[9/16] relative">
+                        <img src="https://i.ibb.co.com/bRrd3t6q/screenshot3-1.jpg" alt="Khetrofol App Screenshot 3" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ৩D রোটেটিং হেডার সহ অ্যাপ নিয়ে বিস্তারিত তথ্য -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <!-- ৩D কার্ড ১: আমাদের সম্পর্কে -->
+            <div class="heading-3d-wrapper bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm">
+                <div class="heading-3d bg-brand/10 border-l-4 border-brand p-4 rounded-r-2xl mb-6 shadow-sm">
+                    <h2 class="text-xl sm:text-2xl font-black text-gray-800 flex items-center space-x-2">
+                        <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.852l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/>
+                        </svg>
+                        <span>Khetrofol App কী?</span>
+                    </h2>
+                </div>
+                <p class="text-gray-600 leading-relaxed text-sm sm:text-base"> আশা করি আপনি ইউটিউবে ক্ষেত্রফল এর পর্বগুলো উপভোগ করেছেন। মূলত, ইউটিউব থেকে দেখার পাশাপাশি আপনি যেন যেকোনো সময় আপনার মোবাইল থেকেই আমাদের ভিডিওগুলো দেখতে পারেন, সেই উদ্দেশ্যকে সামনে রেখে আমরা তৈরি করেছি এই মোবাইল অ্যাপ। 
+                </p>
+            </div>
+
+            <!-- ৩D কার্ড ২: অনন্য বৈশিষ্ঠ্যসমূহ -->
+            <div class="heading-3d-wrapper bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm">
+                <div class="heading-3d bg-brand/10 border-l-4 border-brand p-4 rounded-r-2xl mb-6 shadow-sm">
+                    <h2 class="text-xl sm:text-2xl font-black text-gray-800 flex items-center space-x-2">
+                        <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
+                        </svg>
+                        <span>সেরা বৈশিষ্ট্যসমূহ</span>
+                    </h2>
+                </div>
+                <ul class="space-y-3.5 text-sm sm:text-base">
+                    <li class="flex items-start space-x-3 text-gray-600">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>একটি স্টেবল ইন্টারনেট কানেকশন এর মাধ্যমে দেখতে পারবেন ক্ষেত্রফল</span>
+                    </li>
+                    <li class="flex items-start space-x-3 text-gray-600">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>মোবাইল ফ্রেন্ডলি ইন্টারফেস এবং কুইক রেসপন্স টাইম।</span>
+                    </li>
+                    <li class="flex items-start space-x-3 text-gray-600">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>এই অ্যাপ্লিকেশন আপনার থেকে কোন প্রকার ডাটা কালেক্ট করে না।</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- প্লে-স্টোর স্টাইল হোয়াটস নিউ (নতুন আপডেট) সেকশন -->
+        <section class="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm mb-12">
+            <div class="flex items-center space-x-2.5 mb-6">
+                <span class="w-2.5 h-6 bg-brand rounded-full"></span>
+                <h2 class="text-xl font-extrabold text-gray-900">নতুন কি আপডেট এলো? (What's New)</h2>
+            </div>
+            
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                <div class="flex items-center justify-between flex-wrap gap-2 mb-4">
+                    <span class="bg-brand text-gray-900 font-bold px-3 py-1 rounded-lg text-xs">সংস্করণ v1.0.1</span>
+                    <span class="text-xs text-gray-400 font-semibold">আপডেট তারিখ: জুন ২৩, ২০২৬ ইং</span>
+                </div>
+                <ul class="space-y-3 text-sm text-gray-600">
+                    <li class="flex items-start space-x-2">
+                        <span class="text-[#FFD629] font-bold">•</span>
+                        <span>ইউজার ইন্টারফেস বা ইউআই ডিজাইন আরও উন্নত ও মসৃণ করা হয়েছে।</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                        <span class="text-[#FFD629] font-bold">•</span>
+                        <span>ভিডিও প্লেয়ার আপডেট করা হয়েছে।</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                        <span class="text-[#FFD629] font-bold">•</span>
+                        <span>প্রতিটি ভিডিওর জন্য আলাদা লিংক তৈরি করার সিস্টেম যোগ করা হয়েছে।</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ইউজার রিভিউ সেকশন (প্লে স্টোর আদলে) -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6 px-2">
+                <div class="flex items-center space-x-2.5">
+                    <span class="w-2.5 h-6 bg-brand rounded-full"></span>
+                    <h2 class="text-xl font-extrabold text-gray-900">ব্যবহারকারীদের মতামত ও রেটিং</h2>
+                </div>
+                <div class="flex items-center space-x-1 bg-yellow-50 px-3 py-1.5 rounded-full border border-yellow-200">
+                    <svg class="w-4 h-4 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="text-xs sm:text-sm font-extrabold text-yellow-700">৪.৯/৫.০</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- রিভিউ ১ -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-yellow-100 text-[#d1ab00] font-black flex items-center justify-center border border-yellow-200 text-sm">
+                            ক
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-extrabold text-gray-800">আমিনুল শেখ</h4>
+                            <div class="flex space-x-0.5 mt-0.5">
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-500 leading-relaxed">
+                        অ্যাপটি খুবই ভালো হইছে। ইউটিউবে না ঢুকেই সহজে ভিডিও দেখা যাচ্ছে।
+                    </p>
+                </div>
+
+                <!-- রিভিউ ২ -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-yellow-100 text-[#d1ab00] font-black flex items-center justify-center border border-yellow-200 text-sm">
+                            ত
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-extrabold text-gray-800">AS Shopon</h4>
+                            <div class="flex space-x-0.5 mt-0.5">
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-500 leading-relaxed">
+                        App er ui ta pura joss hoise. Asha kori future a aro update hobe 🥰
+                    </p>
+                </div>
+
+                <!-- রিভিউ ৩ -->
+                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-yellow-100 text-[#d1ab00] font-black flex items-center justify-center border border-yellow-200 text-sm">
+                            র
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-extrabold text-gray-800">সালেহীন শিহাব</h4>
+                            <div class="flex space-x-0.5 mt-0.5">
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                <svg class="w-3.5 h-3.5 text-gray-200 fill-gray-200" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-500 leading-relaxed">
+                        Love it ❤️❤️
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ইউনিক ও ডায়নামিক ফুটার -->
+    <footer class="bg-gray-900 text-white pt-12 pb-6 border-t border-gray-800">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <!-- কলাম ১: আমাদের লক্ষ্য -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-8 h-8 rounded-full overflow-hidden p-0.5 bg-[#FFD629]">
+                            <img src="https://khetrofol.github.io/assets/favicon.png" alt="Khetrofol Logo" class="w-full h-full object-cover rounded-full">
+                        </div>
+                        <span class="text-lg font-bold tracking-tight text-white">Khetrofol's Goal</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-gray-400 leading-relaxed"> সর্বদা নতুন কিছু দেখানো, শেখানো জানানোর ব্যাপারে ক্ষেত্রফল সর্বদা কাজ করে যাবে ইনশাআল্লাহ্!
+                    </p>
+                </div>
+
+                <!-- কলাম ২: সোশ্যাল মিডিয়া লিংকস -->
+                <div class="flex flex-col space-y-4">
+                    <h3 class="text-sm font-extrabold uppercase tracking-widest text-[#FFD629]">যোগাযোগ ও সোশ্যাল মিডিয়া</h3>
+                    <div class="flex flex-col space-y-2.5">
+                        <!-- ফেসবুক -->
+                        <a href="https://m.facebook.com/KhetrofolOfficial" target="_blank" rel="noopener noreferrer" 
+                           class="flex items-center space-x-2.5 text-gray-400 hover:text-white transition-colors group text-sm">
+                            <div class="w-8 h-8 rounded-lg bg-gray-800 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
+                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
+                                </svg>
+                            </div>
+                            <span>ফেসবুক পেইজ</span>
+                        </a>
+
+                        <!-- ইউটিউব -->
+                        <a href="https://m.youtube.com/@Khetrofol" target="_blank" rel="noopener noreferrer" 
+                           class="flex items-center space-x-2.5 text-gray-400 hover:text-white transition-colors group text-sm">
+                            <div class="w-8 h-8 rounded-lg bg-gray-800 flex items-center justify-center group-hover:bg-red-600 transition-colors">
+                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.108C19.52 3.53 12 3.53 12 3.53s-7.52 0-9.388.525a3.003 3.003 0 0 0-2.11 2.108C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.108C4.48 20.47 12 20.47 12 20.47s7.52 0 9.388-.525a3.003 3.003 0 0 0 2.11-2.108C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                                </svg>
+                            </div>
+                            <span>ইউটিউব চ্যানেল</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- কলাম ৩: কুইক ডাউনলোড ইনফো -->
+                <div class="space-y-3">
+                    <h3 class="text-sm font-extrabold uppercase tracking-widest text-[#FFD629]">নিরাপত্তা ও বিশ্বাসযোগ্যতা</h3>
+                    <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700/50 flex items-start space-x-3">
+                        <svg class="w-6 h-6 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+                        </svg>
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            এই পেইজ থেকে ডাউনলোডকৃত সকল APK সরাসরি অফিশিয়াল সোর্স থেকে প্রোভাইড করা হচ্ছে। ১০০% সুরক্ষিত এবং ম্যালওয়্যার মুক্ত।
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-gray-800 my-6">
+
+            <!-- কপিরাইট এবং ডায়নামিক সাল -->
+            <div class="flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-2">
+                <p>© <span id="current-year"></span> ক্ষেত্রফল, সর্বস্বত্ব সংরক্ষিত।</p>
+
+            </div>
+        </div>
+    </footer>
+
+    <!-- স্ক্রিনশট গ্যালারি স্ক্রলিং এবং ডাইনামিক ইয়ার স্ক্রিপ্ট -->
+    <script>
+        // ডাইনামিক কপিরাইট সাল সেট করা
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // গ্যালারি স্ক্রল করার ফাংশন
+        function scrollGallery(scrollOffset) {
+            const gallery = document.getElementById('screenshot-gallery');
+            gallery.scrollBy({
+                left: scrollOffset,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
+
