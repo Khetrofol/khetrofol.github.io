@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Junuxa Watermark</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://khetrofol.github.io/assets/favicon.png">
+    
+    <style>
+        /* অত্যন্ত সাধারণ ও ক্লাসিক ডিজাইন (Retro/Default text-based style) */
+        body {
+            font-family: monospace, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 4px 4px 0px #aaa;
+        }
+
+        h1 {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .upload-section {
+            border: 2px dashed #999;
+            padding: 30px 20px;
+            text-align: center;
+            background: #fff;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        .upload-section:hover {
+            background: #f0f0f0;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .btn {
+            background-color: #222;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-family: inherit;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #555;
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* স্ট্যাটাস ও মেসেজ বক্স */
+        #statusMessage {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #eee;
+            border-left: 4px solid #666;
+            display: none;
+        }
+
+        /* ছবির প্রিভিউ */
+        #previewContainer {
+            margin-top: 25px;
+            text-align: center;
+            display: none;
+        }
+
+        #previewImage {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #333;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* ব্যাকগ্রাউন্ডে কাজ করার জন্য ক্যানভাস হাইড রাখা হয়েছে */
+        #canvas {
+            display: none;
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Junuxa Watermark Generator</h1>
+    <p>আপনার ছবি আপলোড করুন অথবা <strong>#generate?img={লিঙ্ক}</strong> ফরম্যাট ব্যবহার করে ব্রাউজারেই ওয়াটারমার্ক যুক্ত করুন। ফাইনাল ছবির রেজোলিউশন হবে 1920×1080।</p>
+    
+    <!-- ডেমো ব্যবহারের নিয়ম -->
+    <div style="background: #fff; padding: 10px; border: 1px solid #ccc; margin-bottom: 15px; font-size: 13px;">
+        <strong>ইউআরএল ব্যবহারের নিয়ম:</strong> <br>
+        <code>yourdomain.com/#generate?img=https://example.com/your-image.png</code>
+    </div>
+
+    <div class="container">
+        <!-- স্ট্যাটাস মেসেজ দেখানোর জায়গা -->
+        <div id="statusMessage">প্রসেস করা হচ্ছে... অনুগ্রহ করে অপেক্ষা করুন।</div>
+
+        <!-- ফাইল আপলোড সেকশন -->
+        <div class="upload-section" onclick="document.getElementById('fileInput').click()">
+            <p>এখানে ক্লিক করে আপনার ছবি সিলেক্ট করুন (বা ড্র্যাগ অ্যান্ড ড্রপ করুন)</p>
+            <p style="font-size: 12px; color: #666;">সাপোর্টেড ফরম্যাট: PNG, JPG, JPEG, WEBP</p>
+            <input type="file" id="fileInput" accept="image/*">
+        </div>
+
+        <!-- প্রিভিউ এবং ডাউনলোড সেকশন -->
+        <div id="previewContainer">
+            <h3>ফাইনাল প্রিভিউ (1920x1080)</h3>
+            <img id="previewImage" alt="Watermarked Image Preview"><br>
+            <a id="downloadBtn" class="btn" download="junuxa-watermarked.png">ফাইনাল ছবি ডাউনলোড করুন</a>
+        </div>
+    </div>
+
+    <!-- ব্যাকগ্রাউন্ড ইমেজ প্রসেসিং ক্যানভাস -->
+    <canvas id="canvas" width="1920" height="1080"></canvas>
+
+    <footer>
+        &copy; 2026 Junuxa Watermark. All Rights Reserved.
+    </footer>
+
+    <script>
+        // কনফিগারেশন এবং নোডসমূহ
+        const fileInput = document.getElementById('fileInput');
+        const statusMessage = document.getElementById('statusMessage');
+        const previewContainer = document.getElementById('previewContainer');
+        const previewImage = document.getElementById('previewImage');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // ওয়াটারমার্ক ইমেজের সোর্স পাথ
+        const watermarkSrc = 'https://raw.githubusercontent.com/khetrofol/watermark/refs/heads/main/assets/watermark.png';
+
+        // স্ট্যাটাস দেখানোর ফাংশন
+        function showStatus(message, isError = false) {
+            statusMessage.style.display = 'block';
+            statusMessage.style.color = isError ? 'red' : 'green';
+            statusMessage.textContent = message;
+        }
+
+        function hideStatus() {
+            statusMessage.style.display = 'none';
+        }
+
+        // ছবির উপর ওয়াটারমার্ক আঁকার মূল ফাংশন
+        function applyWatermark(userImageSrc) {
+            showStatus("ছবি প্রসেস করা হচ্ছে...");
+
+            const userImg = new Image();
+            const watermarkImg = new Image();
+
+            // CORS পলিসি এড়ানোর চেষ্টা
+            userImg.crossOrigin = "anonymous";
+            watermarkImg.crossOrigin = "anonymous";
+
+            let userImgLoaded = false;
+            let watermarkImgLoaded = false;
+
+            function draw() {
+                if (userImgLoaded && watermarkImgLoaded) {
+                    try {
+                        // ১. ক্যানভাস ক্লিয়ার করা
+                        ctx.clearRect(0, 0, 1920, 1080);
+
+                        // ২. ইউজারের ছবি আঁকা (1920x1080 এ রিসাইজ করে)
+                        ctx.drawImage(userImg, 0, 0, 1920, 1080);
+
+                        // ৩. ওয়াটারমার্ক উপরে বসানো (1920x1080)
+                        ctx.drawImage(watermarkImg, 0, 0, 1920, 1080);
+
+                        // ৪. ইমেজ ডেটা URL জেনারেট করা
+                        const finalDataURL = canvas.toDataURL('image/png');
+
+                        // ৫. প্রিভিউ ও ডাউনলোড বাটনে সেট করা
+                        previewImage.src = finalDataURL;
+                        downloadBtn.href = finalDataURL;
+
+                        previewContainer.style.display = 'block';
+                        showStatus("ওয়াটারমার্ক সফলভাবে যুক্ত করা হয়েছে! নিচে থেকে ডাউনলোড করুন।");
+                    } catch (error) {
+                        console.error(error);
+                        showStatus("ছবি প্রসেস করতে সমস্যা হয়েছে। বাহ্যিক লিঙ্কের ছবির ক্ষেত্রে CORS ইস্যু থাকতে পারে। অন্য কোনো লিংক ব্যবহার করে ট্রাই করুন।", true);
+                    }
+                }
+            }
+
+            userImg.onload = () => {
+                userImgLoaded = true;
+                draw();
+            };
+
+            userImg.onerror = () => {
+                showStatus("ছবিটি লোড করা সম্ভব হয়নি। লিংকটি সঠিক কিনা বা ছবির হোস্টিং সার্ভার এলাউ করছে কিনা তা চেক করুন।", true);
+            };
+
+            watermarkImg.onload = () => {
+                watermarkImgLoaded = true;
+                draw();
+            };
+
+            watermarkImg.onerror = () => {
+                showStatus("ওয়াটারমার্ক ইমেজটি লোড হতে ব্যর্থ হয়েছে!", true);
+            };
+
+            // সোর্স অ্যাসাইন
+            userImg.src = userImageSrc;
+            watermarkImg.src = watermarkSrc;
+        }
+
+        // ১. ডিভাইস ফাইল আপলোড হ্যান্ডলার
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    applyWatermark(event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // ২. URL Hash প্যারামিটার প্রসেসর (#generate?img=...)
+        function processUrlHash() {
+            const hash = window.location.hash;
+            if (hash) {
+                // হ্যাশ এর মধ্যে '?' আছে কিনা খোঁজা হচ্ছে (যেমন: #generate?img=...)
+                const questionMarkIndex = hash.indexOf('?');
+                if (questionMarkIndex !== -1) {
+                    const queryString = hash.substring(questionMarkIndex + 1);
+                    const urlParams = new URLSearchParams(queryString);
+                    const imgUrl = urlParams.get('img');
+
+                    if (imgUrl) {
+                        // URL ডিকোড করে ইমেজ পাস করা হচ্ছে
+                        const decodedImgUrl = decodeURIComponent(imgUrl);
+                        showStatus("লিঙ্ক থেকে ছবি প্রসেস করা শুরু হয়েছে...");
+                        applyWatermark(decodedImgUrl);
+                    }
+                }
+            }
+        }
+
+        // পেজ লোড হবার সময় এবং পরবর্তীতে হ্যাশ পরিবর্তন হলে প্রসেস রান করবে
+        window.addEventListener('DOMContentLoaded', processUrlHash);
+        window.addEventListener('hashchange', processUrlHash);
+
+        // ড্র্যাগ অ্যান্ড ড্রপ
+        const uploadSection = document.querySelector('.upload-section');
+        uploadSection.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadSection.style.background = "#e0e0e0";
+        });
+
+        uploadSection.addEventListener('dragleave', () => {
+            uploadSection.style.background = "#fff";
+        });
+
+        uploadSection.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadSection.style.background = "#fff";
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                fileInput.files = e.dataTransfer.files;
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    applyWatermark(event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+                                                     </html>
